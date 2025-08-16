@@ -1,12 +1,19 @@
 <?php
 
-// 1. Obtener la URL
-$url = isset($_GET['url']) ? $_GET['url'] : 'home/index';
+// 1. Obtener la URL directamente de la petición
+// La variable $_SERVER['REQUEST_URI'] captura la URL completa de la petición
+$url = $_SERVER['REQUEST_URI'];
 
-// 2. Limpiar la URL y dividirla en un array
+// 2. Limpiar la URL y eliminar el prefijo del proyecto
+// En este caso, el prefijo es la carpeta 'ventas' del proyecto
+$projectPath = '/ventas/'; 
+if (strpos($url, $projectPath) === 0) {
+    $url = substr($url, strlen($projectPath));
+}
 $url = explode('/', filter_var(rtrim($url, '/'), FILTER_SANITIZE_URL));
 
 // 3. Definir controlador, método y parámetros
+// Si la URL está vacía, por defecto se usa el controlador Home y el método index
 $controller = !empty($url[0]) ? ucwords($url[0]) . 'Controller' : 'HomeController';
 $method = !empty($url[1]) ? $url[1] : 'index';
 $params = !empty($url[2]) ? array_slice($url, 2) : [];
@@ -21,13 +28,10 @@ if (file_exists($controllerFile)) {
 
     // 6. Verificar si el método existe en el controlador
     if (method_exists($controller, $method)) {
-        // Llamar al método con los parámetros
         call_user_func_array([$controller, $method], $params);
     } else {
-        // Método no encontrado, cargar página de error 404
-        echo "Método no encontrado.";
+        echo "Método no encontrado: " . $method;
     }
 } else {
-    // Controlador no encontrado, cargar página de error 404
-    echo "Controlador no encontrado.";
+    echo "Controlador no encontrado: " . $controller;
 }
