@@ -1,0 +1,7 @@
+RewriteEngine On
+
+# A menos que la solicitud sea para un archivo o directorio existente,
+# envía la solicitud a index.php
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ public/index.php [QSA,L]
