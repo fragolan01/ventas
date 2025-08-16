@@ -1,6 +1,7 @@
 <?php require_once '../app/views/shared/header.php'; ?>
 
     <h1>Gestión de Tiendas</h1>
+    <a href="http://localhost/ventas/tiendas/crear" class="btn btn-primary mb-3">Agregar Nueva Tienda</a>
 
     <table class="table table-striped mt-4">
       <thead>

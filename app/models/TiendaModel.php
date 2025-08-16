@@ -16,4 +16,17 @@ class TiendaModel extends Model
         }
         return $tiendas;
     }
+
+     public function addTienda($nombre, $canal)
+    {
+        // Usa sentencias preparadas para prevenir inyección SQL (más seguro)
+        $stmt = $this->db->prepare("INSERT INTO tiendas (nombre, canal_id) VALUES (?, ?)");
+        $stmt->bind_param("ss", $nombre, $canal);
+        
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
