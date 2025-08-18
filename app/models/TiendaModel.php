@@ -29,4 +29,32 @@ class TiendaModel extends Model
             return false;
         }
     }
+
+
+    public function getTiendaById($id)
+    {
+        $stmt = $this->db->prepare("SELECT * FROM tiendas WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        return $result->fetch_assoc();
+    }
+
+    public function updateTienda($id, $nombre, $canal)
+    {
+        $stmt = $this->db->prepare("UPDATE tiendas SET nombre = ?, canal_id = ? WHERE id = ?");
+        $stmt->bind_param("ssi", $nombre, $canal, $id);
+        return $stmt->execute();
+    }
+
+
+
+    public function eliminarTienda($id)
+    {
+        $stmt = $this->db->prepare("DELETE FROM tiendas WHERE id = ?");
+        $stmt->bind_param("i", $id);
+        return $stmt->execute();
+    }
+
+    
 }

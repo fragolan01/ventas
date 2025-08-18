@@ -19,8 +19,8 @@
                 <td><?php echo $tienda['nombre']; ?></td>
                 <td><?php echo $tienda['canal_id']; ?></td>
                 <td>
-                    <a href="#" class="btn btn-primary btn-sm">Editar</a>
-                    <a href="#" class="btn btn-danger btn-sm">Eliminar</a>
+                    <a href="http://localhost/ventas/tiendas/editar/<?php echo $tienda['id']; ?>" class="btn btn-warning btn-sm">Editar</a>
+                     <a href="http://localhost/ventas/tiendas/eliminar/<?php echo $tienda['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que quieres eliminar esta tienda?');">Eliminar</a>
                 </td>
             </tr>
         <?php endforeach; ?>
