@@ -2,8 +2,16 @@
 Sistema Sistema Multiventas
 
 
-### Paso 5: Implementación de Bootstrap y la estructura de la página
+### Configuracion Subdominios entorno local
 
-1. Crear el encabezado en (app/views/shared/header.php)
+1. Editar el archivo: 
 
-### Modulo Productos
+Subdominios en XAMPP localhost en Windows (funciona también en macOS o Linux con pequeñas variaciones):
+```
+C:\Windows\System32\drivers\etc\hosts
+```
+Se incluye el subdominio: 
+``` 
+127.0.0.1 tiendas.local
+```
+
