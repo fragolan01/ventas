@@ -1,9 +1,9 @@
 <?php
 
 $servername = "localhost"; // Servidor de base de datos
-$username = "root"; // Usuario de MySQL
-$password = ""; // Contraseña de MySQL
-$database = "ventus"; // base de datos
+$username = "fragcom_develop"; // Usuario de MySQL
+$password = "S15t3ma5@Fr4g0l4N"; // Contraseña de MySQL
+$database = "fragcom_linking_people"; // base de datos
 
 // $servername = "localhost"; // Servidor de base de datos
 // $username = "root"; // Usuario de MySQL
