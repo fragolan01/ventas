@@ -31,7 +31,7 @@ class TiendasController
                 // 4. Llamar al modelo para guardar los datos
                 if ($tiendaModel->addTienda($nombre, $canal)) {
                     // 5. Redirigir a la página principal de tiendas si fue exitoso
-                    header('Location: http://localhost/ventas/tiendas');
+                    header('Location: /tiendas');
                     exit();
                 } else {
                     echo "Error al guardar la tienda.";
@@ -77,7 +77,7 @@ class TiendasController
                 // Llamar al modelo para actualizar los datos
                 if ($tiendaModel->updateTienda($id, $nombre, $canal)) {
                     // Redirigir a la página principal de tiendas
-                    header('Location: http://localhost/ventas/tiendas');
+                    header('Location: /ventas/tiendas');
                     exit();
                 } else {
                     echo "Error al actualizar la tienda.";
@@ -102,7 +102,7 @@ class TiendasController
             // 3. Llamar al método de eliminación del modelo
             if ($tiendaModel->eliminarTienda($id)) {
                 // 4. Redirigir a la página principal si fue exitoso
-                header('Location: http://localhost/ventas/tiendas');
+                header('Location: /tiendas');
                 exit();
             } else {
                 echo "Error al eliminar la tienda.";

@@ -24,8 +24,13 @@
                 
                  <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="/tiendas">Tiendas</a>
-
                 </li>
+
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/canales">Canales</a>
+                </li>
+
+
             </ul>
         </div>
     </div>
