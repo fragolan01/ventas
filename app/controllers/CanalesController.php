@@ -52,7 +52,7 @@ class CanalesController
         $canal = $canalModel->getCanalById($id);
 
         if ($canal) {
-            require_once '../app/views/Canales/editar.php';
+            require_once '../app/views/canales/editar.php';
         } else {
             echo "Canal no encontrada.";
         }
