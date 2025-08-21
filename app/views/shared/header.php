@@ -34,6 +34,11 @@
                     <a class="nav-link active" aria-current="page" href="/envios">Envios</a>
                 </li>
 
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/proveedores">Proveedores</a>
+                </li>
+
+
 
             </ul>
         </div>
