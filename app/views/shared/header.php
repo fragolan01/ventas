@@ -38,6 +38,11 @@
                     <a class="nav-link active" aria-current="page" href="/proveedores">Proveedores</a>
                 </li>
 
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/marcas">Marcas</a>
+                </li>
+
+
 
 
             </ul>
