@@ -1,6 +1,9 @@
 <?php
 
 require_once '../app/models/EnvioModel.php';
+require_once '../app/models/tipoDeCambioModel.php';
+
+
 
 class EnviosController
 {
@@ -13,11 +16,17 @@ class EnviosController
 
     public function crear()
     {
+        // Obtener Tipo de cambio
+        $tipoDeCambioModel = new TipoDeCambioModel();
+        $tipoDeCambio = $tipoDeCambioModel->getTipoDeCambio();
+
+
         require_once '../app/views/envios/crear.php';
+
     }
 
     // En el método store()
- public function store()
+    public function store()
     {
         // 1. Verificar si los datos del formulario fueron enviados
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
@@ -102,4 +111,8 @@ class EnviosController
             echo "ID de Envio no válido.";
         }
     }
+
+
+
 }
+

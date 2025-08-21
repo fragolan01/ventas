@@ -2,6 +2,9 @@
 
     <h1>Crear Nuevo envio</h1>
 <form action="/envios/store" method="POST">
+
+    <small class="form-text text-muted">Tipo de Cambio Actual: <?php echo htmlspecialchars($tipoDeCambio); ?></small>
+
     <div class="mb-3">
         <label for="nombre_envio" class="form-label">Nombre del envio</label>
         <input type="text" class="form-control" id="nombre_envio" name="nombre_envio" required>
