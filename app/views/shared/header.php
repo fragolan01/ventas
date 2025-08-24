@@ -46,9 +46,9 @@
                     <a class="nav-link active" aria-current="page" href="/modelos">Modelos</a>
                 </li>
 
-
-
-
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="/publicacion">Tipos Publicaciones</a>
+                </li>
 
             </ul>
         </div>
