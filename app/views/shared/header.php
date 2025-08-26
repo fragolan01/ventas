@@ -46,8 +46,23 @@
                     <a class="nav-link active" aria-current="page" href="/modelos">Modelos</a>
                 </li>
 
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/publicacion">Tipos Publicaciones</a>
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPublicaciones" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Mercado libre
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownPublicaciones">
+                        <li>
+                            <a class="dropdown-item" href="/publicacion">Tipos de Publicaciones</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#">Crear Publicación</a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <a class="dropdown-item" href="#">Otra Opción</a>
+                        </li>
+                    </ul>
                 </li>
 
             </ul>
@@ -57,3 +72,6 @@
 
 <main>
     <div class="container mt-4">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>

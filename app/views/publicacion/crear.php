@@ -17,7 +17,7 @@
     </div>
 
     <button type="submit" class="btn btn-success">Guardar Publicacion</button>
-    <a href="/ventas/canales" class="btn btn-secondary">Cancelar</a>
+    <a href="/publicacion" class="btn btn-secondary">Cancelar</a>
 </form>
 
 <?php require_once '../app/views/shared/footer.php'; ?>
