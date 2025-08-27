@@ -48,6 +48,26 @@
 
 
                 <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownProductos" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Productos
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdownProductos">
+                        <li>
+                            <a class="dropdown-item" href="/ventas/productos">Panel de control</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="/ventas/productos/crear">Crear Publicación</a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li>
+                            <a class="dropdown-item" href="#">Otra Opción</a>
+                        </li>
+                    </ul>
+                </li>
+
+
+
+                <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownPublicaciones" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Mercado libre
                     </a>
@@ -64,6 +84,7 @@
                         </li>
                     </ul>
                 </li>
+
 
             </ul>
         </div>

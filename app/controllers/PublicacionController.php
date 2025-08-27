@@ -21,16 +21,16 @@ class PublicacionController
         // 1. Verificar si los datos del formulario fueron enviados
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             // 2. Limpiar los datos para mayor seguridad
-            $tipoPublicacionId = filter_input(INPUT_POST, 'tipo_publi_id', FILTER_SANITIZE_STRING);
+            $tipo_publi_id = filter_input(INPUT_POST, 'tipo_publi_id', FILTER_SANITIZE_STRING);
             $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
-            $canalId = filter_input(INPUT_POST, 'canal_id', FILTER_SANITIZE_STRING);
+            $canal_id = filter_input(INPUT_POST, 'canal_id', FILTER_SANITIZE_STRING);
 
             // 3. Validar que los datos no estén vacíos
-            if (!empty($tipoPublicacionId) && !empty($name) && !empty($canalId)) { // Se cambió a isset para 'activo'
+            if (!empty($tipo_publi_id) && !empty($name) && !empty($canal_id)) { // Se cambió a isset para 'activo'
                 $tipoPubliModel = new PublicacionModel();
                 
                 // 4. Llamar al modelo para guardar los datos. Se corrigió la llamada para que coincida con el modelo.
-                if ($tipoPubliModel->addTipoPublicacion($tipoPublicacionId, $name, $canalId)) {
+                if ($tipoPubliModel->addTipoPublicacion($tipo_publi_id, $name, $canal_id)) {
                     // 5. Redirigir a la página principal de Canales si fue exitoso
                     header('Location: /publicacion');
                     exit();
@@ -60,15 +60,15 @@ class PublicacionController
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
-            $tipoPubliId = filter_input(INPUT_POST, 'tipo_publi_id', FILTER_VALIDATE_INT);
+            $tipo_publi_id = filter_input(INPUT_POST, 'tipo_publi_id', FILTER_VALIDATE_INT);
             $name = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
-            $canalId = filter_input(INPUT_POST, 'canal_id', FILTER_VALIDATE_INT);
+            $canal_id = filter_input(INPUT_POST, 'canal_id', FILTER_VALIDATE_INT);
 
             // La validación ahora busca las variables correctas
-            if (!empty($id) && !empty($tipoPubliId) && !empty($name) && !empty($canalId)) {
+            if (!empty($id) && !empty($tipo_publi_id) && !empty($name) && !empty($canal_id)) {
                 $publicacionModel = new PublicacionModel();
                 
-                if ($publicacionModel->updateTipoPublicacion($id, $tipoPubliId, $name, $canalId)) {
+                if ($publicacionModel->updateTipoPublicacion($id, $tipo_publi_id, $name, $canal_id)) {
                     header('Location: /publicacion');
                     exit();
                 } else {

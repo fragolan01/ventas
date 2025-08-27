@@ -40,11 +40,11 @@ class PublicacionModel extends Model
         return $result->fetch_assoc();
     }
 
-    public function updateTipoPublicacion($id, $tipoPublicacionId, $name, $canal_id)
+    public function updateTipoPublicacion($id, $tipo_publi_id, $name, $canal_id)
     {
         // Se corrigió la firma del método para que coincida con los parámetros que se necesitan
         $stmt = $this->db->prepare("UPDATE tipos_publicaciones SET tipo_publi_id = ?, name = ?, canal_id = ? WHERE id = ?");
-        $stmt->bind_param("ssi", $tipo_publi_id, $name, $canal_id);
+        $stmt->bind_param("ssii", $tipo_publi_id, $name, $canal_id);
         return $stmt->execute();
     }
 

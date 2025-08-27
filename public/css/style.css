@@ -331,4 +331,10 @@ footer {
     .demo_banner-text-right h2 {
         font-size: 49px;
     }
+
+ .sidebar-personalizado {
+  padding-left: 0 !important;
+  margin-left: 0 !important;
+}
+
 }	
