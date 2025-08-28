@@ -53,10 +53,10 @@
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdownProductos">
                         <li>
-                            <a class="dropdown-item" href="/ventas/productos">Panel de control</a>
+                            <a class="dropdown-item" href="/productos">Panel de control</a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="/ventas/productos/crear">Crear Publicación</a>
+                            <a class="dropdown-item" href="/">Crear Publicación</a>
                         </li>
                         <li><hr class="dropdown-divider"></li>
                         <li>

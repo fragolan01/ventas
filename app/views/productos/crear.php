@@ -1,6 +1,6 @@
 <h1>Crear Producto</h1>
 
-<form action="/ventas/productos/store" method="POST">
+<form action="/productos/store" method="POST">
 
     <div class="card mb-4">
         <div class="card-header bg-primary text-white">
@@ -144,6 +144,6 @@
 
     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
         <button type="submit" class="btn btn-success me-md-2">Guardar Producto</button>
-        <a href="/ventas/productos" class="btn btn-secondary">Cancelar</a>
+        <a href="/productos" class="btn btn-secondary">Cancelar</a>
     </div>
 </form>
