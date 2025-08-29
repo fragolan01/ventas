@@ -1,6 +1,7 @@
 <?php
 
 require_once '../app/models/ProductoModel.php';
+require_once '../app/services/MLProductBuilder.php';
 
 class ProductosController
 {
@@ -164,4 +165,27 @@ class ProductosController
             echo "ID de Producto no válido.";
         }
     }
+
+    // Se llama a un miembro estatico directamemente sin llamar una instancia
+    public function publicar($id)
+    {
+        $productoModel = new ProductoModel();
+        $producto = $productoModel ->getProductoById($id);
+
+        if (!$producto) {
+            die("Producto No encontrado");
+        }
+
+        $payload = MLProductBuilder::buildPayload($producto);
+
+        // Probar el mapeo
+        echo "<pre>";
+        print_r($payload);
+        echo "</pre>";
+        exit; // Detiene la ejecución
+    }
+
+
+
+
 }
