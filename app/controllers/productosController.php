@@ -8,8 +8,10 @@ class ProductosController
     {
         $productoModel = new ProductoModel();
         $productos = $productoModel->getProductos();
+
         $view = '../app/views/productos/index.php';
         require_once '../app/views/productos/_layoutProductos.php';
+
     }
 
     public function crear()
