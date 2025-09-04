@@ -89,4 +89,22 @@ class ProductoModel extends Model
         $stmt->bind_param("i", $id);
         return $stmt->execute();
     }
+
+
+    // Procedimientos nuevos
+    public function updateError($id, $errorMessage)
+    {
+        $stmt = $this->db->prepare("UPDATE productos SET error_message = ?, status = 'error' WHERE id = ?");
+        $stmt->bind_param("si", $errorMessage, $id);
+        return $stmt->execute();
+    }
+
+
+    public function updateStatus($id, $itemId)
+    {
+        $stmt = $this->db->prepare("UPDATE productos SET item_id = ?, status = 'activo' WHERE id = ?");
+        $stmt->bind_param("si", $itemId, $id);
+        return $stmt->execute();
+    }
+
 }

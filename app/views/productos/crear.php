@@ -71,9 +71,9 @@
                 <div class="col-md-4 mb-3">
                     <label for="warranty_type" class="form-label">Tipo de Garantía:</label>
                     <select class="form-select" name="warranty_type" id="warranty_type">
-                        <option value="manufacturer">Fabricante</option>
-                        <option value="seller">Vendedor</option>
-                        <option value="">Sin garantía</option>
+                        <option value="manufacturer">2230280</option>
+                        <option value="seller">2230279</option>
+                        <option value="">6150835</option>
                     </select>
                 </div>
                 <div class="col-md-4 mb-3">
@@ -130,10 +130,21 @@
                 <textarea class="form-control" name="pictures" id="pictures" rows="2"></textarea>
             </div>
             <div class="row">
+
                 <div class="col-md-6 mb-3">
-                    <label for="attributes" class="form-label">Atributos (JSON o clave=valor):</label>
+                    <label for="attributes" class="form-label">Atributos:</label>
                     <textarea class="form-control" name="attributes" id="attributes" rows="2"></textarea>
                 </div>
+                <div class="col-md-6 mb-3">
+                    <label for="brand" class="form-label">Marca:</label>
+                    <textarea class="form-control" name="brand" id="brand" rows="2" required></textarea>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="model" class="form-label">Modelo:</label>
+                    <textarea class="form-control" name="model" id="model" rows="2" required></textarea>
+                </div>
+
+
                 <div class="col-md-6 mb-3">
                     <label for="product_id" class="form-label">Product ID (Catálogo ML):</label>
                     <input type="text" class="form-control" name="product_id" id="product_id">
