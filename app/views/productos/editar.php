@@ -73,8 +73,8 @@
                 <div class="col-md-4 mb-3">
                     <label for="warranty_type" class="form-label">Tipo de Garantía:</label>
                     <select class="form-select" name="warranty_type" id="warranty_type">
-                        <option value="manufacturer" <?php if ($producto['warranty_type'] == 'manufacturer') echo 'selected'; ?>>Fabricante</option>
-                        <option value="seller" <?php if ($producto['warranty_type'] == 'seller') echo 'selected'; ?>>Vendedor</option>
+                        <option value="2230280" <?php if ($producto['warranty_type'] == '2230280') echo 'selected'; ?>>Fabricante</option>
+                        <option value="2230280" <?php if ($producto['warranty_type'] == '2230280') echo '2230280'; ?>>Vendedor</option>
                         <option value="" <?php if ($producto['warranty_type'] == '') echo 'selected'; ?>>Sin garantía</option>
                     </select>
                 </div>

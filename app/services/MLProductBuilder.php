@@ -42,7 +42,7 @@ class MLProductBuilder {
         if (!empty($row['warranty_time'])) {
             $warrantyTime = trim($row['warranty_time']);
 
-            // Si es solo número, le agregamos " meses"
+            // Si es solo número
             if (is_numeric($warrantyTime)) {
                 $warrantyTime .= " meses";
             } else {

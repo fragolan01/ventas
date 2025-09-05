@@ -70,11 +70,9 @@
             <div class="row">
                 <div class="col-md-4 mb-3">
                     <label for="warranty_type" class="form-label">Tipo de Garantía:</label>
-                    <select class="form-select" name="warranty_type" id="warranty_type">
-                        <option value="manufacturer">2230280</option>
-                        <option value="seller">2230279</option>
-                        <option value="">6150835</option>
-                    </select>
+                    <input type="number" step="0.01" class="form-control" name="warranty_type" id="warranty_type" required>
+
+
                 </div>
                 <div class="col-md-4 mb-3">
                     <label for="warranty_time" class="form-label">Tiempo de Garantía (meses):</label>
