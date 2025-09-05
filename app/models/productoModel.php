@@ -72,7 +72,11 @@ class ProductoModel extends Model
             WHERE id = ?");
 
         $stmt->bind_param(
+
             "ssdsisssisssssisii",
+
+            
+
             $title, $category_id, $price, $currency_id, $available_quantity,
             $buying_mode, $conditions, $listing_type_id,
             $warranty_type, $warranty_time, $pictures, $description,

@@ -106,14 +106,16 @@
                         <option value="auction" <?php if ($producto['buying_mode'] == 'auction') echo 'selected'; ?>>Subasta</option>
                     </select>
                 </div>
-                 <div class="col-md-4 mb-3">
+
+                <div class="col-md-4 mb-3">
                     <label for="status" class="form-label">Estado:</label>
                     <select class="form-select" name="status" id="status" required>
-                        <option value="active" <?php if ($producto['status'] == 'active') echo 'selected'; ?>>Activo</option>
-                        <option value="paused" <?php if ($producto['status'] == 'paused') echo 'selected'; ?>>Pausado</option>
-                        <option value="inactive" <?php if ($producto['status'] == 'inactive') echo 'selected'; ?>>Inactivo</option>
+                        <option value="activo" <?php if ($producto['status'] == 'activo') echo 'selected'; ?>>Activo</option>
+                        <option value="pausado" <?php if ($producto['status'] == 'pausado') echo 'selected'; ?>>Pausado</option>
+                        <option value="inactivo" <?php if ($producto['status'] == 'inactivo') echo 'selected'; ?>>Inactivo</option>
+                        <option value="error" <?php if ($producto['status'] == 'error') echo 'selected'; ?>>Error</option>
                     </select>
-                </div>
+                </div>                
             </div>
         </div>
     </div>

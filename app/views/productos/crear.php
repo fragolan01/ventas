@@ -105,9 +105,10 @@
                 <div class="col-md-4 mb-3">
                     <label for="status" class="form-label">Estado:</label>
                     <select class="form-select" name="status" id="status" required>
-                        <option value="active">Activo</option>
-                        <option value="paused">Pausado</option>
-                        <option value="inactive">Inactivo</option>
+                        <option value="activo">Activo</option>
+                        <option value="pausado">Pausado</option>
+                        <option value="inactivo">Inactivo</option>
+
                     </select>
                 </div>
             </div>

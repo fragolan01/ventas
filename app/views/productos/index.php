@@ -38,9 +38,9 @@
                                 <td><?php echo htmlspecialchars($producto['conditions']); ?></td>
                                 <td>
                                     <span class="badge 
-                                        <?php if ($producto['status'] == 'active') echo 'bg-success'; ?>
-                                        <?php if ($producto['status'] == 'paused') echo 'bg-warning text-dark'; ?>
-                                        <?php if ($producto['status'] == 'inactive') echo 'bg-danger'; ?>">
+                                        <?php if ($producto['status'] == 'activo') echo 'bg-success'; ?>
+                                        <?php if ($producto['status'] == 'pausado') echo 'bg-warning text-dark'; ?>
+                                        <?php if ($producto['status'] == 'inactivo') echo 'bg-danger'; ?>">
                                         <?php echo htmlspecialchars(ucfirst($producto['status'])); ?>
                                     </span>
                                 </td>
