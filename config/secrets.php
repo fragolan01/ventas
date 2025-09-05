@@ -1,22 +1,24 @@
 <?php
 
 // Ruta token Test
-$rutaTokenTest = __DIR__ . '/testTokenML/tokens.js';
+$rutaTokenTest = __DIR__ . '\testTokenML\tokens.js';
 // Ruta token prod
-$rutaTokenProd = __DIR__ . '/prodTokenML/tokens.js';
+// $rutaTokenProd = __DIR__ . '/prodTokenML/tokens.js';
+
+
 
 
 // Leer tokens test y prod
 $tokenTestContenido = file_get_contents($rutaTokenTest);
-$tokenProdContenido = file_get_contents($rutaTokenProd);
+// $tokenProdContenido = file_get_contents($rutaTokenProd);
 
 // Decodificar JSON array asocitivo test y prod
 $testToken = json_decode($tokenTestContenido, true);
-$prodtToken = json_decode($tokenProdContenido, true);
+// $prodtToken = json_decode($tokenProdContenido, true);
 
 // Obtener valor de access tokens test y prod
 $accessTokenTest = $testToken['access_token'];
-$accessTokenProd = $prodtToken['access_token'];
+// $accessTokenProd = $prodtToken['access_token'];
 
 
 // Este archivo guarda las key seecret de cada aplicacion
@@ -27,7 +29,7 @@ return [
     ],
     'prod_mercado_libre' => [
         'client_id' => '7626391564892909',
-        'prodtToken' => $accessTokenProd
+        // 'prodtToken' => $accessTokenProd
     ],
     'test_mercado_libre' => [
         'client_id' => '7626391564892909',
