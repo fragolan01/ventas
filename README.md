@@ -848,3 +848,9 @@ CREATE TABLE IF NOT EXISTS productos (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 ```
+
+### Valores de garantia para mercado libre
+Los valores aceptados para las garantias en ML son:
+```
+  (manufacturer). Allowed values are [2230280, 2230279, 6150835]
+```
