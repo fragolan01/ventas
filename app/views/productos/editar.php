@@ -72,11 +72,13 @@
             <div class="row">
                 <div class="col-md-4 mb-3">
                     <label for="warranty_type" class="form-label">Tipo de Garantía:</label>
-                    <select class="form-select" name="warranty_type" id="warranty_type">
-                        <option value="2230280" <?php if ($producto['warranty_type'] == '2230280') echo 'selected'; ?>>Fabricante</option>
-                        <option value="2230280" <?php if ($producto['warranty_type'] == '2230280') echo '2230280'; ?>>Vendedor</option>
-                        <option value="" <?php if ($producto['warranty_type'] == '') echo 'selected'; ?>>Sin garantía</option>
-                    </select>
+                    <input type="text" class="form-control" name="warranty_type" id="warranty_type"  value="<?php echo htmlspecialchars($producto['warranty_type']); ?>" required>
+
+                   <!-- <select class="form-select" name="warranty_type" id="warranty_type">
+                        <option value="2230280" <php /* if ($producto['warranty_type'] == '2230280') echo 'selected'; */?>>Fabricante</option>
+                        <option value="2230280" <php /* if ($producto['warranty_type'] == '2230280') echo '2230280'; */?>>Vendedor</option>
+                        <option value="" < /* php if ($producto['warranty_type'] == '') echo 'selected'; */ ?>>Sin garantía</option>
+                    </select> -->
                 </div>
                 <div class="col-md-4 mb-3">
                     <label for="warranty_time" class="form-label">Tiempo de Garantía (meses):</label>

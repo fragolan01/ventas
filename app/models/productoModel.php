@@ -25,7 +25,7 @@ class ProductoModel extends Model
 
         // usar "s" para todo, salvo números enteros ("i")
         $stmt->bind_param(
-            "ssdsisssisssssisi",
+            "ssdsisssisssssiss",
             $title, $category_id, $price, $currency_id,
             $available_quantity, $buying_mode, $conditions,
             $listing_type_id, $warranty_type, $warranty_time,

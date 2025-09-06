@@ -1,0 +1,42 @@
+Array
+(
+    [id] => 36
+    [title] => Colágeno Hidrolizado Generica 700g Sabor Natural
+    [category_id] => MLM194418
+    [price] => 350.00
+    [currency_id] => MXN
+    [available_quantity] => 60
+    [buying_mode] => buy_it_now
+    [conditions] => new
+    [listing_type_id] => gold_premium
+    [warranty_type] => 2230280
+    [warranty_time] => 12
+    [pictures] => [{"source":"https:\/\/tiendas.fragolan.com\/public\/img\/colageno1.jpg"}]
+    [description] => Color: Blanco
+    [attributes] => [{"id":"BRAND","value_name":"Natural"},{"id":"MODEL","value_name":"Model4"}]
+    [product_id] => El mejor
+    [shipping_mode] => 0
+    [shipping_local_pickup] => 0
+    [shipping_free] => 1
+    [status] => activo
+    [item_id] => error
+    [error_message] => {
+    "message": "body.invalid_field_types",
+    "error": "validation_error",
+    "status": 400,
+    "cause": [
+        {
+            "department": "items",
+            "cause_id": 101,
+            "type": "error",
+            "code": "body.invalid_field_types",
+            "references": [
+                "item.sale_terms[0].value_id"
+            ],
+            "message": "invalid property type: [sale_terms[0].value_id] expected String but was Integer value: 2230280"
+        }
+    ]
+}
+    [created_at] => 2025-09-04 18:33:21
+    [updated_at] => 2025-09-05 09:02:29
+)

@@ -194,15 +194,19 @@ class ProductosController
         
         // Obtener el token de Syscom del array de secretos
         // $token = $secrets['test_mercado_libre']['testToken'];
-        $token = 'APP_USR-7626391564892909-090510-894c4f5d92def307d9fea2af89ceb935-2645087980';
+        $token = 'APP_USR-7626391564892909-090611-d79480f94187e411e8d9cfe94fe6fc3e-2645087980';
 
 
         $productoModel = new ProductoModel();
         $producto = $productoModel ->getProductoById($id);
 
-        if (!$producto) {
-            die("Producto No encontrado");
-        }
+        // if (!$producto) {
+        //     die("Producto No encontrado");
+        // }
+
+
+        // Revisar que informacion tengo ****************DEBUG INFO******
+        file_put_contents(__DIR__ . '/debug_datos_entrada.txt', print_r($producto, true));
 
         $payload = MLProductBuilder::buildPayload($producto);
 
