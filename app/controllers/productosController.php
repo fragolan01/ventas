@@ -190,11 +190,11 @@ class ProductosController
     public function publicar($id)
     {
         // Carga las key de api MELI
-        // $secrets = require '../config/secrets.php';
+        $secrets = require '../config/secrets.php';
         
         // Obtener el token de Syscom del array de secretos
-        // $token = $secrets['test_mercado_libre']['testToken'];
-        $token = 'APP_USR-7626391564892909-090611-d79480f94187e411e8d9cfe94fe6fc3e-2645087980';
+        $token = $secrets['test_mercado_libre']['testToken'];
+        // $token = 'APP_USR-7626391564892909-090918-e787967e444909b8cc19d010d16ce10d-2645087980';
 
 
         $productoModel = new ProductoModel();

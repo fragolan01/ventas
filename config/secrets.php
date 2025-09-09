@@ -1,16 +1,18 @@
 <?php
 
 // Ruta token Test
-$rutaTokenTest = __DIR__ . '\testTokenML\tokens.js';
+$rutaTokenTest = __DIR__ . '\testTokenML\tokens.json';
+
 // Ruta token prod
-// $rutaTokenProd = __DIR__ . '/prodTokenML/tokens.js';
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/prodTokenML/tokens.js';
 
-
-
+// ruta token testTokenML
+// require_once $_SERVER['DOCUMENT_ROOT'] . '/config/testTokenML/MeliToken.php';
 
 // Leer tokens test y prod
 $tokenTestContenido = file_get_contents($rutaTokenTest);
 // $tokenProdContenido = file_get_contents($rutaTokenProd);
+
 
 // Decodificar JSON array asocitivo test y prod
 $testToken = json_decode($tokenTestContenido, true);
@@ -19,6 +21,8 @@ $testToken = json_decode($tokenTestContenido, true);
 // Obtener valor de access tokens test y prod
 $accessTokenTest = $testToken['access_token'];
 // $accessTokenProd = $prodtToken['access_token'];
+
+echo "tokennnnnnnn: " . $accessTokenTest;
 
 
 // Este archivo guarda las key seecret de cada aplicacion
