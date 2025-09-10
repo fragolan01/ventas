@@ -218,7 +218,7 @@ class ProductosController
                     // Publicación exitosa
                     echo "Producto publicado con éxito. ID de Mercado Libre: " . htmlspecialchars($response['id']);
 
-                    // Opcional: Actualizar la base de datos con el ID de Mercado Libre y el estado
+                    // Actualizar la base de datos con el ID de Mercado Libre y el estado
                     $productoModel->updateItemId($id, $response['id']);
                     $productoModel->updateStatus($id, 'activo'); // Por ejemplo
                 } else {

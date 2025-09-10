@@ -70,7 +70,7 @@
             <div class="row">
                 <div class="col-md-4 mb-3">
                     <label for="warranty_type" class="form-label">Tipo de Garantía:</label>
-                    <input type="number" step="0.01" class="form-control" name="warranty_type" id="warranty_type" required>
+                    <input type="text" class="form-control" name="warranty_type" id="warranty_type" required>
 
 
                 </div>

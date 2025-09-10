@@ -1,26 +1,26 @@
 Array
 (
-    [id] => 28
-    [title] => Colágeno Hidrolizado Generica 250g Sabor Amargo
+    [id] => 47
+    [title] => Colágeno Hidrolizado Generica 500g Sabor gerber
     [category_id] => MLM194418
-    [price] => 500.00
+    [price] => 2020.00
     [currency_id] => MXN
-    [available_quantity] => 60
+    [available_quantity] => 20
     [buying_mode] => buy_it_now
     [conditions] => new
-    [listing_type_id] => gold_premium
+    [listing_type_id] => gold_special
     [warranty_type] => 2230280
     [warranty_time] => 12
     [pictures] => [{"source":"https:\/\/tiendas.fragolan.com\/public\/img\/colageno1.jpg"}]
-    [description] => Sabor: amargo
-    [attributes] => [{"id":"BRAND","value_name":"Solagen"},{"id":"MODEL","value_name":"MDE"}]
-    [product_id] => s
+    [description] => para beber
+    [attributes] => [{"id":"BRAND","value_name":"mia"},{"id":"MODEL","value_name":"tuyo"}]
+    [product_id] => 44
     [shipping_mode] => 0
     [shipping_local_pickup] => 0
     [shipping_free] => 1
-    [status] => 
+    [status] => activo
     [item_id] => 
     [error_message] => 
-    [created_at] => 2025-09-04 17:33:31
-    [updated_at] => 2025-09-04 17:34:05
+    [created_at] => 2025-09-10 13:16:59
+    [updated_at] => 2025-09-10 13:16:59
 )
