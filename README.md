@@ -854,3 +854,20 @@ Los valores aceptados para las garantias en ML son:
 ```
   (manufacturer). Allowed values are [2230280, 2230279, 6150835]
 ```
+
+
+<!-- Publicar en Mercado Libre cada producto En servidor produccion -->
+
+```
+https://tiendas.fragolan.com/productos/publicar/50
+```
+<!-- servidor localhost xampp  -->
+
+```
+http://localhost/productos/publicar/50
+```
+
+### Modulo para cargar productos de proveedor syscom
+En este modulo es para extraer todos los productos directamente de la API syscom.
+
+1. Modificar el header
