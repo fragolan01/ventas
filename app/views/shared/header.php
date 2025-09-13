@@ -56,7 +56,7 @@
                             <a class="dropdown-item" href="/productos">Panel de control</a>
                         </li>
                         <li>
-                            <a class="dropdown-item" href="/">Ingreso de Productos</a>
+                            <a class="dropdown-item" href="/ingresoProductos">Ingreso de Productos</a>
                         </li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
