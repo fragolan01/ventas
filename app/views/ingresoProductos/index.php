@@ -6,6 +6,9 @@
     // Muestra el div de la fila solo si hay proveedores.
     if (isset($proveedores) && is_array($proveedores) && !empty($proveedores)): 
     ?>
+    <h3><center>Selecciona el proveedor</h3></center>
+    <br>
+    <br>
     <div class="row text-center">
 
         <?php foreach ($proveedores as $proveedor): ?>
@@ -18,10 +21,10 @@
                     </text>
                 </svg>
 
-                <h2 class="mt-3">Importar de <?php echo htmlspecialchars($proveedor['nombre_proveedor']); ?></h2>
-                <p>Importa el catálogo completo de productos de este proveedor para su posterior gestión.</p>
+                <h2 class="mt-3"><?php echo htmlspecialchars($proveedor['id']); ?></h2>
+                <p>Importa el catálogo de productos.</p>
                 
-                <form action="/ingreso-productos/importar" method="POST">
+                <form action="/Syscom/importarProductos" method="POST">
                     <input type="hidden" name="proveedor_id" value="<?php echo htmlspecialchars($proveedor['id']); ?>">
                     <button type="submit" class="btn btn-primary mt-2">
                         <i class="fas fa-download me-2"></i> Iniciar Importación &raquo;

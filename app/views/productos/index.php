@@ -2,7 +2,7 @@
     <h1 class="h2">Panel de Control de Productos</h1>
     <div class="btn-toolbar mb-2 mb-md-0">
         <a href="/productos/crear" class="btn btn-sm btn-success">
-            <i class="fas fa-plus-circle"></i> Crear Nuevo Producto
+            <i class="fas fa-plus-circle"></i> Crear Nueva Publicacion
         </a>
     </div>
 </div>

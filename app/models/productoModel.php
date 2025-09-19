@@ -6,7 +6,7 @@ class ProductoModel extends Model
 {
     public function getProductos()
     {
-        $sql = "SELECT * FROM productos";
+        $sql = "SELECT * FROM publicaciones";
         $result = $this->db->query($sql);
         $productos = [];
         if ($result && $result->num_rows > 0) {
@@ -19,7 +19,7 @@ class ProductoModel extends Model
 
     public function addProducto($title, $category_id, $price, $currency_id, $available_quantity, $buying_mode, $conditions, $listing_type_id, $warranty_type, $warranty_time, $pictures, $description, $attributes, $product_id, $shipping_mode, $shipping_free, $status)
     {
-        $stmt = $this->db->prepare("INSERT INTO productos 
+        $stmt = $this->db->prepare("INSERT INTO publicaciones 
         (title, category_id, price, currency_id, available_quantity, buying_mode, conditions, listing_type_id, warranty_type, warranty_time, pictures, description, attributes, product_id, shipping_mode, shipping_free, status) 
         VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)");
 
@@ -38,7 +38,7 @@ class ProductoModel extends Model
 
     public function getProductoById($id)
     {
-        $stmt = $this->db->prepare("SELECT * FROM productos WHERE id = ?");
+        $stmt = $this->db->prepare("SELECT * FROM publicaciones WHERE id = ?");
         $stmt->bind_param("i", $id);
         $stmt->execute();
 
@@ -63,7 +63,7 @@ class ProductoModel extends Model
 
     public function updateProducto($id, $title, $category_id, $price, $currency_id, $available_quantity, $buying_mode, $conditions, $listing_type_id, $warranty_type, $warranty_time, $pictures, $description, $attributes, $product_id, $shipping_mode, $shipping_free, $status)
     {
-        $stmt = $this->db->prepare("UPDATE productos SET 
+        $stmt = $this->db->prepare("UPDATE publicaciones SET 
             title = ?, category_id = ?, price = ?, currency_id = ?, 
             available_quantity = ?, buying_mode = ?, conditions = ?, 
             listing_type_id = ?, warranty_type = ?, warranty_time = ?, 
@@ -89,7 +89,7 @@ class ProductoModel extends Model
 
     public function eliminarProducto($id)
     {
-        $stmt = $this->db->prepare("DELETE FROM productos WHERE id = ?");
+        $stmt = $this->db->prepare("DELETE FROM publicaciones WHERE id = ?");
         $stmt->bind_param("i", $id);
         return $stmt->execute();
     }
@@ -98,7 +98,7 @@ class ProductoModel extends Model
     // Procedimientos nuevos
     public function updateError($id, $errorMessage)
     {
-        $stmt = $this->db->prepare("UPDATE productos SET error_message = ?, status = 'error' WHERE id = ?");
+        $stmt = $this->db->prepare("UPDATE publicaciones SET error_message = ?, status = 'error' WHERE id = ?");
         $stmt->bind_param("si", $errorMessage, $id);
         return $stmt->execute();
     }
@@ -106,7 +106,7 @@ class ProductoModel extends Model
 
     public function updateStatus($id, $itemId)
     {
-        $stmt = $this->db->prepare("UPDATE productos SET item_id = ?, status = 'activo' WHERE id = ?");
+        $stmt = $this->db->prepare("UPDATE publicaciones SET item_id = ?, status = 'activo' WHERE id = ?");
         $stmt->bind_param("si", $itemId, $id);
         return $stmt->execute();
     }

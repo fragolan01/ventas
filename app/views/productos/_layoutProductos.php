@@ -8,11 +8,11 @@
                 <ul class="nav flex-column">
                     <li class="nav-item">
                         <a class="nav-link" href="/ventas/productos">
-                            Lista de Productos
+                            Lista de Publicaciones
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/ventas/productos/crear">
+                        <a class="nav-link" href="/ingresoProductos">
                             Registro de Productos
                         </a>
                     </li>
