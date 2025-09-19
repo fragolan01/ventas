@@ -49,9 +49,16 @@ class SyscomModel extends Model
      */
     private function insertaProducto($data)
     {
+
+        // que EL proveedor_id esté en el array
+        if (!isset($data['proveedor_id'])) {
+            error_log("Falta el proveedor_id en los datos del producto.");
+            return false;
+        }
+
         $sql = "INSERT INTO productos
-                 (producto_id, modelo, total_existencia, titulo, marca, imagen, link_privado, descripcion, caracteristicas, peso, alto, largo, ancho) 
-                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                 (producto_id, proveedor_id, modelo, total_existencia, titulo, marca, imagen, link_privado, descripcion, caracteristicas, peso, alto, largo, ancho) 
+                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->db->prepare($sql);
         if (!$stmt) {
             error_log("Error al preparar la consulta de inserción: " . $this->db->error);
@@ -62,8 +69,9 @@ class SyscomModel extends Model
             $data['caracteristicas'] = json_encode($data['caracteristicas'], JSON_UNESCAPED_UNICODE);
         }
       
-        $stmt->bind_param("isssssssssddd",
-            $data['producto_id'], 
+        $stmt->bind_param("iisssssssssddd",
+            $data['producto_id'],
+            $data['proveedor_id'], 
             $data['modelo'],
             $data['total_existencia'],
             $data['titulo'],
