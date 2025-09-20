@@ -870,4 +870,76 @@ http://localhost/productos/publicar/50
 ### Modulo para cargar productos de proveedor syscom
 En este modulo es para extraer todos los productos directamente de la API syscom.
 
-1. Modificar el header
+
+### Patron Strategy para cargar productos
+
+1. La Estrategia (Interfaz)
+Se define una interfaz que actua como el contrato, asegurando que todos los importadores de proveedores se comporten de la misma manera.
+
+```
+// ProveedorImportadorInterface.php
+
+interface ProveedorImportadorInterface {
+    public function importarProductos(array $data): array;
+}
+``` 
+
+2. Estrategia concreta (Las clases especializadas)
+Se crea una clase para cada tipo de importacion, cada clase implementara la interfaz anterior, pero contendra su logica especifica
+
+  - SyscomImportador: la clase que se encARGARa de la logica pra el proveedor syscom, Recibira los ID'S SYSCOM , consultará la API y guardará los productos en la base de datos.
+
+  ``` 
+  // app/services/SyscomImportador.php
+class SyscomImportador implements ProveedorImportadorInterface {
+    public function importarProductos(array $data): array {
+        // Lógica para consultar la API de Syscom y guardar los productos
+    }
+}
+
+```
+
+- FormularioImportador: Esta clase manejará la lógica para los proveedores sin API, donde los datos se ingresan manualmente.
+
+```
+// app/services/FormularioImportador.php
+class FormularioImportador implements ProveedorImportadorInterface {
+    public function importarProductos(array $data): array {
+        // Lógica para guardar los productos desde los datos del formulario
+    }
+}
+```
+
+3. Contexto (Controlador)
+Su trabajo no es saber cómo importar, sino simplemente delegar esa tarea a la estrategia correcta. Una fábrica.
+
+La Fábrica (ImportadorFactory): Esta clase se encarga de decidir qué objeto importador crear basándose en el ID del proveedor. El controlador le pedirá un importador a la fábrica y lo usará.
+
+```
+// app/services/ImportadorFactory.php
+class ImportadorFactory {
+    public static function getImportador(int $proveedorId): ProveedorImportadorInterface {
+        switch ($proveedorId) {
+            case 1: // ID para Syscom
+                return new SyscomImportador();
+            default:
+                return new FormularioImportador();
+        }
+    }
+}
+```
+El controlador final
+
+```
+// app/services/ImportadorFactory.php
+class ImportadorFactory {
+    public static function getImportador(int $proveedorId): ProveedorImportadorInterface {
+        switch ($proveedorId) {
+            case 1: // ID para Syscom
+                return new SyscomImportador();
+            default:
+                return new FormularioImportador();
+        }
+    }
+}
+```
