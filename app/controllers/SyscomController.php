@@ -1,105 +1,61 @@
 <?php
+// app/controllers/SyscomController.php
 
-// Iniciar sesion para conservar y persistir proveedor_id
-// AdaptACION !!!
 session_start();
 
 require_once '../app/models/SyscomModel.php';
 require_once '../app/services/SyscomApiClient.php';
+require_once '../app/services/ImportadorFactory.php';
 
-class SyscomController
-{
+class SyscomController {
+    // ... (El constructor y las propiedades siguen igual)
 
-    private $syscomModel;
-    private $syscomApiClient;
-
-    // Constructor para iniciar el modelo y el servicio
-    public function __construct()
-    {
-        // El modelo ya tiene la conexion a la BD
-        $this ->syscomModel = new SyscomModel();
-
-        // Carga las key de api syscom
-        $secrets = require '../config/secrets.php';
-
-        // Obtener el token de Syscom del array de secretos
-        $token = $secrets['syscom']['api_token'];
-
-        $this->syscomApiClient = new SyscomApiClient($token);
-
-    }
-
-
-    /**
-     * Muestra el formulario para ingresar los productos y procesa la solicitud de importación.
-     */
-
-    public function importarProductos()
-    {
+    public function importarProductos() {
         $resultados = [];
-        $productos_id = null;
-
-        // Comprueba si hay un proveedor_id en la sesión para el flujo de importación
-        // Adaptacion !!! Conservar el id proveedor
-        if (isset($_SESSION['proveedor_id'])) {
-            $proveedor_id = $_SESSION['proveedor_id'];
-        }
-
-
-        // Post en formulario
-        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        $proveedorId = null;
         
-            // Si el formulario selecciona proveedores Primera Peticion
-            if(isset($_POST['proveedor_id'])){
-                $_SESSION['proveedor_id'] = $_POST['proveedor_id'];
-                // Muestra fornulario sin procesar datos
-                include __DIR__ . '/../views/ingresoProductos/importar_syscom.php'; 
-                return;
-
-            }
-
-            // Si el formulario viene de productos Segunda peticion 
-            if(isset($_POST['producto_id']) && $proveedor_id != NULL){
-                $producto_id_input = trim($_POST['producto_id']);
-                $producto_id_array = array_map('trim', explode(',', $producto_id_input));
-                $producto_id_array = array_filter($producto_id_array); // Eliminar vacíos
-
-                // $producto_id_procesados = count($producto_id_array);
-
-                // 2. Obtener los IDs ya existentes en la base de datos
-                $productosExistentes = $this->syscomModel->obtenerProductosPorIds($producto_id_array);
-                $idsExistentes = array_column($productosExistentes, 'producto_id');
-    
-
-                $producto_id_a_consultar = array_diff($producto_id_array, $idsExistentes);
-
-                // 3. Iterar sobre ID PRODUDCTOS que no existen y consultarlos a la API
-                foreach ($producto_id_a_consultar as $producto_id) {
-                    $producto_data = $this->syscomApiClient->getProductoData($producto_id);
-                    
-                    if ($producto_data) {
-                        
-                        // Producto data que no pertenece a los datos directos de syscoom
-                        $producto_data['proveedor_id'] = $proveedor_id;
-
-                        // 4. Insertar o actualizar el producto en la base de datos
-                        if ($this->syscomModel->insertaOActualizaProducto($producto_data)) {
-                            $resultados[] = ['producto_id' => $producto_id, 'estado' => 'success', 'mensaje' => 'Importado/Actualizado correctamente.'];
-                        } else {
-                            $resultados[] = ['producto_id' => $producto_id, 'estado' => 'error', 'mensaje' => 'Error al guardar en la base de datos.'];
-                        }
-                    } else {
-                        $resultados[] = ['producto_id' => $producto_id, 'estado' => 'error', 'mensaje' => 'Error al obtener datos de la API.'];
-                    }
-                }
-            }
+        // Verifica si el proveedor_id ya está en la sesión
+        if (isset($_SESSION['proveedor_id'])) {
+            $proveedorId = $_SESSION['proveedor_id'];
         }
 
-        // pASAR RESULTADOS A LA vista
-        include __DIR__ . '\..\views/IngresoProductos/importar_syscom.php';
+        // Manejar la solicitud POST
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            
+            // PRIMERA PETICIÓN: Si el formulario selecciona un proveedor
+            if (isset($_POST['proveedor_id'])) {
+                $_SESSION['proveedor_id'] = $_POST['proveedor_id'];
+                $proveedorId = $_SESSION['proveedor_id'];
 
+                // Decide qué vista cargar basada en el proveedor
+                if ($proveedorId == 3) { // Suponiendo que Syscom es el ID 1
+                    include __DIR__ . '/../views/ingresoProductos/importar_syscom.php';
+                } else {
+                    // Cargar la vista del formulario manual para otros proveedores
+                    include __DIR__ . '/../views/ingresoProductos/formulario_manual.php';
+                }
+                return;
+            }
+
+            // SEGUNDA PETICIÓN: Si el formulario viene con datos de producto
+            if (isset($_POST['producto_id']) && $proveedorId !== null) {
+                // Lógica de importación usando el patrón Strategy
+                $importador = ImportadorFactory::getImportador($proveedorId);
+                $data = ['proveedor_id' => $proveedorId, 'producto_id_input' => $_POST['producto_id']];
+                $resultados = $importador->importarProductos($data);
+                
+                // Cargar la vista correcta después de la importación
+                if ($proveedorId == 3) {
+                    include __DIR__ . '/../views/ingresoProductos/importar_syscom.php';
+                } else {
+                    include __DIR__ . '/../views/ingresoProductos/formulario_manual.php';
+                }
+                return;
+            }
+        }
+        
+        // Carga una vista por defecto si no es una petición POST
+        // Por ejemplo, volver a la selección de proveedores
+        include __DIR__ . '/../../views/ingresoProductos/index.php';
     }
-
-
-
 }
