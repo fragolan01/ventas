@@ -1,6 +1,7 @@
 <?php
 // app/controllers/SyscomController.php
 
+// Se inicia para conservar el id del cliente e insertar oculto en la tabla productos
 session_start();
 
 require_once '../app/models/SyscomModel.php';
@@ -8,7 +9,7 @@ require_once '../app/services/SyscomApiClient.php';
 require_once '../app/services/ImportadorFactory.php';
 
 class SyscomController {
-    // ... (El constructor y las propiedades siguen igual)
+    // constructor y propiuedades
 
     public function importarProductos() {
         $resultados = [];
@@ -28,8 +29,9 @@ class SyscomController {
                 $proveedorId = $_SESSION['proveedor_id'];
 
                 // Decide qué vista cargar basada en el proveedor
-                if ($proveedorId == 3) { // Suponiendo que Syscom es el ID 1
+                if ($proveedorId == 3) { // en este caSO 3 el el id de syscom carga la vista
                     include __DIR__ . '/../views/ingresoProductos/importar_syscom.php';
+                    require_once '../app/views/ingresoProductos/_layoutProductosSys.php';
                 } else {
                     // Cargar la vista del formulario manual para otros proveedores
                     include __DIR__ . '/../views/ingresoProductos/formulario_manual.php';

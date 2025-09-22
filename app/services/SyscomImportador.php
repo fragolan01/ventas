@@ -1,5 +1,6 @@
 <?php
-// app/services/SyscomImportador.php
+
+// SyscomImportador.php Esta es una estrategia concreta donde se cargan los productos por la API SYSCOM
 
 require_once 'ProveedorImportadorInterface.php';
 require_once '../app/models/SyscomModel.php';
@@ -20,13 +21,14 @@ class SyscomImportador implements ProveedorImportadorInterface {
         $this->syscomApiClient = new SyscomApiClient($token);
     }
     
+    // Traemos el metodo de la estrategia !!!!
     public function importarProductos(array $data): array {
         $resultados = [];
         
         // Extrae los datos necesarios del array $data
         // La lógica del controlador principal debe pasar estos datos aquí
         $proveedor_id = $data['proveedor_id'];
-        $producto_id_input = $data['producto_id_input']; // Asumimos que pasas el string de IDs aquí
+        $producto_id_input = $data['producto_id_input']; // string de IDs aquí
 
         // Lógica de procesamiento que tenías en el controlador
         $producto_id_array = array_map('trim', explode(',', $producto_id_input));
