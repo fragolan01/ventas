@@ -2,6 +2,7 @@
 
 // ruta configuracion vistas
 define('CONF_VISTAS_PATH' , __DIR__ . '../../config/configuracionVistas.php');
+
 // define('CONF_VISTAS_PATH' , __DIR__ . '/../app/views');
 
 // Define las vistas

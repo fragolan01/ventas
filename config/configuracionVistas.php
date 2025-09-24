@@ -18,7 +18,7 @@ $conf = [
             'view' => 'home/index.php' //  home en su propia carpeta
         ],
         'ingresoProductos' => [
-            'view' => 'ingresoProductos/index.php',
+            'view' => 'ingresoProductos/formulario_manual.php',
             'layout' => 'ingresoProductos/_layoutProductosSys.php'
         ],
         'syscom' => [

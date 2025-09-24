@@ -1,2 +1,2 @@
 <?php
-echo "Nuevo formulario";
+echo "Formulario para otros productos";
