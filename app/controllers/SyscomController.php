@@ -1,63 +1,58 @@
 <?php
 // app/controllers/SyscomController.php
 
-// Se inicia para conservar el id del cliente e insertar oculto en la tabla productos
 session_start();
 
 require_once '../app/models/SyscomModel.php';
 require_once '../app/services/SyscomApiClient.php';
 require_once '../app/services/ImportadorFactory.php';
 
-class SyscomController {
-    // constructor y propiuedades
+// Carga la configuración de vistas una sola vez.
+// Es mejor hacerlo en el router para que esté disponible globalmente.
+// Si no puedes, úsalo con global.
+require_once __DIR__ . '/../../config/configuracionVistas.php';
 
+class SyscomController {
     public function importarProductos() {
+        global $conf; // Accede al array de configuración global
+        
         $resultados = [];
         $proveedorId = null;
-        
-        // Verifica si el proveedor_id ya está en la sesión
+
         if (isset($_SESSION['proveedor_id'])) {
             $proveedorId = $_SESSION['proveedor_id'];
         }
 
-        // Manejar la solicitud POST
+        // Lógica para manejar las peticiones POST y obtener resultados
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-            
-            // PRIMERA PETICIÓN: Si el formulario selecciona un proveedor
             if (isset($_POST['proveedor_id'])) {
                 $_SESSION['proveedor_id'] = $_POST['proveedor_id'];
                 $proveedorId = $_SESSION['proveedor_id'];
-
-                // Decide qué vista cargar basada en el proveedor
-                if ($proveedorId == 3) { // en este caSO 3 el el id de syscom carga la vista
-                    include __DIR__ . '/../views/ingresoProductos/importar_syscom.php';
-                    require_once '../app/views/ingresoProductos/_layoutProductosSys.php';
-                } else {
-                    // Cargar la vista del formulario manual para otros proveedores
-                    include __DIR__ . '/../views/ingresoProductos/formulario_manual.php';
-                }
-                return;
             }
-
-            // SEGUNDA PETICIÓN: Si el formulario viene con datos de producto
             if (isset($_POST['producto_id']) && $proveedorId !== null) {
-                // Lógica de importación usando el patrón Strategy
                 $importador = ImportadorFactory::getImportador($proveedorId);
                 $data = ['proveedor_id' => $proveedorId, 'producto_id_input' => $_POST['producto_id']];
                 $resultados = $importador->importarProductos($data);
-                
-                // Cargar la vista correcta después de la importación
-                if ($proveedorId == 3) {
-                    include __DIR__ . '/../views/ingresoProductos/importar_syscom.php';
-                } else {
-                    include __DIR__ . '/../views/ingresoProductos/formulario_manual.php';
-                }
-                return;
             }
         }
         
-        // Carga una vista por defecto si no es una petición POST
-        // Por ejemplo, volver a la selección de proveedores
-        include __DIR__ . '/../../views/ingresoProductos/index.php';
+        // Ahora, carga la vista y el layout al final, una sola vez.
+        // Decide qué vista y layout usar basándote en el proveedorId.
+        if ($proveedorId == 3) {
+            global $conf;
+
+            // $view = $conf['modules']['syscom']['view'];
+            $view = VIEW_PATH . $conf['modules']['syscom']['view'];
+            $layout = $conf['modules']['syscom']['layout'];
+        } else {
+            // Usa el layout del formulario manual si no es Syscom
+            $view = $conf['modules']['ingresoProductos']['view'];
+            $layout = $conf['modules']['ingresoProductos']['layout'];
+        }
+        // require_once $layout;
+        
+        // El `require_once` final y único que carga todo.
+        // la variable $view y $resultados existan para la vista.
+        require_once __DIR__ . '/../../app/views/' . $layout;
     }
 }

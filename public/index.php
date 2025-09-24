@@ -1,5 +1,21 @@
 <?php
 
+// ruta configuracion vistas
+define('CONF_VISTAS_PATH' , __DIR__ . '../../config/configuracionVistas.php');
+// define('CONF_VISTAS_PATH' , __DIR__ . '/../app/views');
+
+// Define las vistas
+define('VIEW_PATH', __DIR__ . '/../app/views/');
+
+// Aincluir archivo.
+if (file_exists(CONF_VISTAS_PATH)) {
+    require_once CONF_VISTAS_PATH;
+} else {
+    // Handle the error if the file is not found.
+    die('Error: The configuration file was not found.');
+}
+
+
 // 1. Obtener la URL directamente de la petición
 $url = $_SERVER['REQUEST_URI'];
 
