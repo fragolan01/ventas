@@ -57,7 +57,7 @@ class SyscomModel extends Model
         }
 
         $sql = "INSERT INTO productos
-                 (producto_id, proveedor_id, modelo, total_existencia, titulo, marca, imagen, link_privado, descripcion, caracteristicas, peso, alto, largo, ancho) 
+                 (producto_id, proveedor_id, modelo, total_existencia, titulo, marca, imagens, link_privado, descripcion, caracteristicas, peso, alto, largo, ancho) 
                  VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         $stmt = $this->db->prepare($sql);
         if (!$stmt) {
@@ -76,7 +76,7 @@ class SyscomModel extends Model
             $data['total_existencia'],
             $data['titulo'],
             $data['marca'],
-            $data['imagen'],
+            $data['imagens'],
             $data['link_privado'],
             $data['descripcion'],
             $data['caracteristicas'],
@@ -97,7 +97,7 @@ class SyscomModel extends Model
     private function actualizaProducto($data)
     {
         $sql = "UPDATE productos SET
-            modelo = ?, total_existencia = ?, titulo = ?, marca = ?, imagen = ?, link_privado = ?, descripcion = ?, caracteristicas = ?, peso = ?, alto = ?, largo = ?, ancho = ?
+            modelo = ?, total_existencia = ?, titulo = ?, marca = ?, imagens = ?, link_privado = ?, descripcion = ?, caracteristicas = ?, peso = ?, alto = ?, largo = ?, ancho = ?
             WHERE producto_id = ?";
         $stmt = $this->db->prepare($sql);
         if (!$stmt) {
@@ -114,7 +114,7 @@ class SyscomModel extends Model
             $data['total_existencia'],
             $data['titulo'],
             $data['marca'],
-            $data['imagen'],
+            $data['imagens'],
             $data['link_privado'],
             $data['descripcion'],
             $data['caracteristicas'],
