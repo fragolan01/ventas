@@ -176,6 +176,28 @@ class SyscomModel extends Model
         return $productos;
     }
 
+
+    /**
+     * Muestra todos los productos de la tabla
+     */
+    public function obtenerTodosLosProductos()
+    {
+        $sql = "SELECT * FROM productos";
+        $result = $this->db->query($sql);
+        $productos =[];
+
+        if($result -> num_rows > 0){
+            while ($row = $result->fetch_assoc()) {
+                $productos[] = $row;
+            }
+        }
+
+        return $productos;      
+    }
+
+
+
+
     /**
      * Parámetros por referencia
      */

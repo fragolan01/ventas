@@ -23,6 +23,7 @@ $conf = [
         ],
         'syscom' => [
             'view' => 'ingresoProductos/importar_syscom.php',
+            'viewProduct' => 'ingresoProductos/lista_productos.php',
             'layout' => 'ingresoProductos/_layoutProductosSys.php'
         ]
     ]

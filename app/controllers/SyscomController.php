@@ -56,4 +56,27 @@ class SyscomController {
         // Las variables $view y $resultados ahora están disponibles para la vista.
         require_once $layout;
     }
+
+
+        public function listaProductos() {
+
+        //configuración global
+        global $conf; 
+
+        // ruta de vistas si está en el router
+        global $VIEW_PATH;  
+
+        $syscomModel = new SyscomModel();
+        $productos = $syscomModel->obtenerTodosLosProductos();
+        
+        // // 2. Definir vista y layout (Configuración)
+        $view = VIEW_PATH . $conf['modules']['syscom']['viewProduct'];
+        $layout = VIEW_PATH . $conf['modules']['ingresoProductos']['layout'];
+        
+        // 3. Cargar el layout
+        require_once $layout;
+
+        
+    }
+
 }
