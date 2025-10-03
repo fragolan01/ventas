@@ -4,6 +4,8 @@ require_once '../app/models/ProveedorModel.php';
 
 class IngresoProductosController
 {
+    // Declaramos la propiedad
+    private $ProveedorModel;
 
     public function __construct()
     {
