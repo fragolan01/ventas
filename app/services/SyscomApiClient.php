@@ -1,9 +1,7 @@
 <?php
 
-
 class SyscomApiClient
 {
-    // Propiedad para almacenar el token
     private $token;
 
     public function __construct($token)
@@ -12,33 +10,47 @@ class SyscomApiClient
     }
 
     /**
-     * Obtiene los datos de un producto de la API de Syscom.
-     * @param string $idSyscom El ID del producto a buscar.
-     * @return array|null Los datos del producto, o null si no se encuentra o hay un error.
+     * Obtiene los datos de un producto de la API de Syscom sin usar cURL.
+     * @param string $idSyscom
+     * @return array|null
      */
     public function getProductoData($idSyscom)
     {
         $url = "https://developers.syscom.mx/api/v1/productos/$idSyscom";
+
         $headers = [
             "Authorization: Bearer " . $this->token,
+            "Accept: application/json"
         ];
 
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL, $url);
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
-        
-        $response = curl_exec($ch);
-        // ¡CORRECCIÓN CRÍTICA! Obtener el código HTTP
-        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        curl_close($ch);
-        
+        // Creamos el contexto HTTP
+        $context = stream_context_create([
+            "http" => [
+                "method" => "GET",
+                "header" => implode("\r\n", $headers),
+                "ignore_errors" => true // Para poder leer incluso errores HTTP
+            ]
+        ]);
+
+        // Ejecutar la solicitud
+        $response = @file_get_contents($url, false, $context);
+
+        // Obtener el código de respuesta HTTP
+        $http_code = 0;
+        if (isset($http_response_header[0])) {
+            preg_match('/\s(\d{3})\s/', $http_response_header[0], $matches);
+            $http_code = isset($matches[1]) ? (int)$matches[1] : 0;
+        }
+
+        if ($response === false) {
+            error_log("Error: no se pudo conectar con la API de Syscom para ID: $idSyscom");
+            return null;
+        }
+
         $data = json_decode($response, true);
-        
-        // Verificar la llamada
+
         if ($http_code != 200 || !$data || !isset($data['producto_id'])) {
-            // Registro de error
-            error_log("Error al consultar la API de Syscom para ID: $idSyscom. HTTP Code: $http_code. Response: " . $response);
+            error_log("Error al consultar la API de Syscom para ID: $idSyscom. HTTP: $http_code. Respuesta: " . $response);
             return null;
         }
 
