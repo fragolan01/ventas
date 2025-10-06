@@ -8,7 +8,7 @@ require_once '../app/services/SyscomApiClient.php';
 require_once '../app/services/ImportadorFactory.php';
 
 // Esta linea debe estar en router principal
-// require_once __DIR__ . '/../../config/configuracionVistas.php';
+require_once __DIR__ . '/../../config/configuracionVistas.php';
 
 class SyscomController {
     public function importarProductos() {

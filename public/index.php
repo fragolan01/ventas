@@ -1,8 +1,10 @@
 <?php
 
 // ruta configuracion vistas
-define('CONF_VISTAS_PATH' , __DIR__ . '../../config/configuracionVistas.php');
-
+// define('CONF_VISTAS_PATH' , __DIR__ . '../config/configuracionVistas.php');
+// CÓDIGO CORREGIDO: (Añadimos la barra diagonal / y el ../ faltante)
+define('CONF_VISTAS_PATH' , __DIR__ . '/../config/configuracionVistas.php');
+// echo CONF_VISTAS_PATH;
 // define('CONF_VISTAS_PATH' , __DIR__ . '/../app/views');
 
 // Define las vistas
