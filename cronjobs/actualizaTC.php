@@ -6,10 +6,8 @@ error_reporting(E_ALL);
 // Cargar la conexión a la base de datos. La ruta es relativa a la carpeta cronjobs.
 require_once '../app/models/conexion.php'; 
 
-
 // Carga las key de api syscom
 $secrets = require '../config/secrets.php';
-
 
 // Obtener el token de Syscom del array de secretos
 $token = $secrets['syscom']['api_token'];
@@ -17,37 +15,36 @@ $token = $secrets['syscom']['api_token'];
 
 /**
  * Función para hacer una llamada GET a la API de SYSCOM para obtener el tipo de cambio
+ * (versión sin cURL, usando file_get_contents)
  *
  * @param string $token Token de autorización
  * @return array|null Respuesta decodificada de la API o null si falla
  */
 function consultarApiSyscom($token) {
     $url = "https://developers.syscom.mx/api/v1/tipocambio";
-    $headers = ["Authorization: Bearer $token"];
 
-    $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, $url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+    $options = [
+        "http" => [
+            "header" => "Authorization: Bearer $token\r\n",
+            "method" => "GET",
+            "timeout" => 20
+        ]
+    ];
 
-    $response = curl_exec($ch);
+    $context = stream_context_create($options);
+    $response = @file_get_contents($url, false, $context);
 
-    if (curl_errno($ch)) {
-        error_log("Error al realizar la solicitud del tipo de cambio: " . curl_error($ch) . "\n");
+    if ($response === false) {
+        error_log("Error al realizar la solicitud del tipo de cambio (sin cURL)\n");
         return null;
     }
 
-    curl_close($ch);
     return json_decode($response, true);
 }
 
 
 /**
- * Función para insertar datos del tipo de cambio en la tabla `plataforma_productos_tipo_cambio`
- *
- * @param mysqli $conn Conexión activa a la base de datos
- * @param array $datos Datos a insertar
- * @return bool Resultado de la operación
+ * Función para insertar datos del tipo de cambio en la tabla `tipo_de_cambio`
  */
 function insertarTipoDeCambioSyscom($conn, $datos) {
     $sql = "INSERT INTO `tipo_de_cambio`

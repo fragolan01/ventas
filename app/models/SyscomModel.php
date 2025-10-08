@@ -204,6 +204,62 @@ class SyscomModel extends Model
         return $result;
     }
 
+
+    // ----------------------------------------------------------------------------------
+    // === INVENTARIO MINIMO ===
+    // ----------------------------------------------------------------------------------
+
+
+    public function obtenerInventarioMinId(int $producto_id_interno)
+    {
+        $sql = "SELECT id FROM inventario_mini WHERE producto_id = ?";
+        $stmt = $this->db->prepare($sql);
+        if (!$stmt) return null;
+
+        $stmt->bind_param("i", $producto_id_interno);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $precio = $result->fetch_assoc();
+        $stmt->close();
+
+        return $precio['id_invmin'] ?? null;
+    }
+
+    public function insertaInventarioMin(int $producto_id_interno, array $dato_invmin)
+    {
+        // Inserta inventario minimo
+          if (!isset($dato_invmin['proveedor_id']) || $dato_invmin['proveedor_id'] != 3) {
+            return false;
+        }
+
+        // Revisar si ya existe
+        $id_invmin_existente = $this->obtenerInventarioMinId($producto_id_interno);
+        if ($id_invmin_existente) {
+            return false; // Ya existe, no inserta de nuevo
+        }
+
+         return $this->insertaInvMin($producto_id_interno, 50);
+
+    }
+
+    private function insertaInvMin(int $producto_id_interno, int $inv_min)
+    {
+
+        $sql = "INSERT INTO inventario_mini (producto_id, inv_min) VALUES (?, ?)";
+        $stmt = $this->db->prepare($sql);
+
+        if (!$stmt) {
+            error_log("Error al preparar inserción inventario mínimo: " . $this->db->error);
+            return false;
+        }
+
+        $stmt->bind_param("ii", $producto_id_interno, $inv_min);
+        $result = $stmt->execute();
+        $stmt->close();
+        return $result;        
+
+    }
+
     /**
      * Muestra todos los productos de la tabla
      */
