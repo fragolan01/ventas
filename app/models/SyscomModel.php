@@ -282,6 +282,7 @@ class SyscomModel extends Model
     // Lista de precios
     public function obtenerListaDePrecios()
     {
+        /*
         $sql = "SELECT
                 pp.fecha AS FECHA, pro.producto_id AS 'ID PRODUCTO', 
                 pro.titulo AS  NOMBRE, pp.precio_descuento AS PRECIO 
@@ -289,6 +290,17 @@ class SyscomModel extends Model
                 LEFT JOIN productos AS pro
                 ON pp.producto_id = pro.id
                 ORDER BY pp.fecha";
+        */
+          $sql = "SELECT
+                    pp.fecha AS FECHA, pro.producto_id AS 'ID PRODUCTO', 
+                    pro.titulo AS  NOMBRE, pp.precio_descuento AS PRECIO, im.inv_min as INVMIN 
+                    FROM precios_productos AS pp
+                    LEFT JOIN productos AS pro
+                    ON pp.producto_id = pro.id
+                    LEFT JOIN inventario_mini AS im
+                    ON im.producto_id = pro.id
+                    ORDER BY pp.fecha";
+
         $result = $this->db->query($sql);
         $precios =[];
 

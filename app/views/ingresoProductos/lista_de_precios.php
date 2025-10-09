@@ -7,6 +7,8 @@
             <th scope="col">ID PRODUCTO</th>
             <th scope="col">NOMBRE</th>
             <th scope="col">PRECIO</th>
+            <th scope="col">IMV MIN</th>
+
         </tr>
     </thead>
     <tbody>
@@ -16,6 +18,8 @@
                 <td><?php echo $precio['ID PRODUCTO']; ?></td>
                 <td><?php echo $precio['NOMBRE']; ?></td>
                 <td><?php echo $precio['PRECIO']; ?></td>
+                <td><?php echo $precio['INVMIN']; ?></td>
+
             </tr>
         <?php endforeach; ?>
     </tbody>

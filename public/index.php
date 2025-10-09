@@ -1,5 +1,16 @@
 <?php
 
+// Mostrar tipo de cambio
+require_once __DIR__ . '/../app/models/TcambioModel.php'; 
+
+// 2. Inicializar el modelo
+$tipoDeCambioModel = new TipoDeCambioModel();
+
+// 3. Obtener el valor y definirlo como una variable global accesible
+$GLOBALS['TIPO_DE_CAMBIO_NORMAL'] = $tipoDeCambioModel->getTipoDeCambio();
+
+
+
 // ruta configuracion vistas
 // define('CONF_VISTAS_PATH' , __DIR__ . '../config/configuracionVistas.php');
 // CÓDIGO CORREGIDO: (Añadimos la barra diagonal / y el ../ faltante)

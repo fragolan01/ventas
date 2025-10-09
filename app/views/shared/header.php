@@ -85,6 +85,21 @@
                     </ul>
                 </li>
 
+                
+                <div class="navbar-text text-white ml-3">
+                    <?php 
+                    // Acceder a la variable global definida en index.php
+                    $tc_value = $GLOBALS['TIPO_DE_CAMBIO_NORMAL'];
+                    
+                    if ($tc_value !== null): 
+                    ?>
+                        <span class="badge badge-info mr-1">TC:</span>
+                        $<?php echo number_format($tc_value, 2); ?> MXN
+                    <?php else: ?>
+                        <span class="badge badge-danger">TC no disponible</span>
+                    <?php endif; ?>
+                </div>
+
 
             </ul>
         </div>
