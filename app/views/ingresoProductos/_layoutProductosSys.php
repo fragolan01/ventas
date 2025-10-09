@@ -21,6 +21,13 @@
                              Lista de productos
                         </a>
                     </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/ventas/Syscom/listaDePrecios">
+                             Lista de Precios
+                        </a>
+                    </li>
+
                 </ul>
             </div>
         </nav>

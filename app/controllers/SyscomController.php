@@ -8,7 +8,7 @@ require_once '../app/services/SyscomApiClient.php';
 require_once '../app/services/ImportadorFactory.php';
 
 // Esta linea debe estar en router principal
-require_once __DIR__ . '/../../config/configuracionVistas.php';
+// require_once __DIR__ . '/../../config/configuracionVistas.php';
 
 class SyscomController {
     public function importarProductos() {
@@ -58,7 +58,7 @@ class SyscomController {
     }
 
 
-        public function listaProductos() {
+    public function listaProductos() {
 
         //configuración global
         global $conf; 
@@ -75,8 +75,37 @@ class SyscomController {
         
         // 3. Cargar el layout
         require_once $layout;
-
         
     }
+
+
+    // Obtener lista de los precios
+    public function listaDePrecios() {
+
+        //configuración global
+        global $conf; 
+
+        // ruta de vistas si está en el router
+        global $VIEW_PATH;  
+
+        $syscomModel = new SyscomModel();
+        $precios = $syscomModel->obtenerListaDePrecios();
+        
+        // 1. Obtener la ruta base del módulo
+        $vista_base = $conf['modules']['ingresoProductos']['views_dir'] ?? 'ingresoProductos/';
+
+        // // 2. Definir vista y layout (Configuración)
+        // $view = VIEW_PATH . $conf['modules']['syscom']['viewProduct'];
+
+        // 2. Definir la vista específica para la lista de precios
+        $view = VIEW_PATH . $vista_base . 'lista_de_precios.php';
+
+        $layout = VIEW_PATH . $conf['modules']['ingresoProductos']['layout'];
+        
+        // 3. Cargar el layout
+        require_once $layout;
+
+    }
+
 
 }
