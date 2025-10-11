@@ -8,6 +8,11 @@
         <tr>
           <th scope="col">id</th>
           <th scope="col">Nombre</th>
+          <th scope="col">Inventario Minimo</th>
+          <th scope="col">tipo de Cambio</th>
+          <th scope="col">Giro</th>
+          <th scope="col">estado</th>
+          
           <th scope="col">creado</th>
         </tr>
       </thead>
@@ -16,6 +21,11 @@
             <tr>
                 <th scope="row"><?php echo $proveedor['id']; ?></th>
                 <td><?php echo $proveedor['nombre_proveedor']; ?></td>
+                <td><?php echo $proveedor['inv_min']; ?></td>
+                <td><?php echo $proveedor['tc']; ?></td>
+                <td><?php echo $proveedor['giro']; ?></td>
+                <td><?php echo $proveedor['estado']; ?></td>
+
                 <td><?php echo $proveedor['creado']; ?></td>
                 <td>
                     <a href="/proveedores/editar/<?php echo $proveedor['id']; ?>" class="btn btn-warning btn-sm">Editar</a>
