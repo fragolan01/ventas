@@ -847,6 +847,95 @@ CREATE TABLE IF NOT EXISTS productos (
   updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+
+
+<!-- Nuevas tablas item meli para monitorear el cosnto envio -->
+
+
+-- item_meli
+CREATE TABLE `item_meli` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `item_id` VARCHAR(50),
+    `site_id` VARCHAR(3),
+    `title` VARCHAR(255),
+    `family_name` VARCHAR(20),
+    `family_id` INT,
+    `seller_id` INT,
+    `category_id` VARCHAR(10),
+    `user_product_id` VARCHAR(25),
+    `official_store_id` INT,
+    `price` DECIMAL(10,2),
+    `base_price` DECIMAL(10,2),
+    `original_price` DECIMAL(10,2),
+    `inventory_id` VARCHAR(25),
+    `currency_id` VARCHAR(3),
+    `initial_quantity` INT,
+    `available_quantity` INT,
+    `sold_quantity` INT,
+    `buying_mode` VARCHAR(25),
+    `listing_type_id` VARCHAR(25),
+    `start_time` TIME,
+    `condition` VARCHAR(25),
+    `permalink` TEXT,
+    `thumbnail_id` VARCHAR(255),
+    `video_id` VARCHAR(255),
+    `descriptions` VARCHAR(255),
+    `accepts_mercadopago` BOOLEAN DEFAULT TRUE,
+    `international_delivery_mode` VARCHAR(50),
+    `warranty` VARCHAR(50),
+    `catalog_product_id` VARCHAR(50),
+    `domain_id` VARCHAR(50),
+    `date_created` TIME,
+    `channels` VARCHAR(50),
+    INDEX (`item_id`),
+    INDEX (`seller_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+
+-- item_meli_sale_terms
+CREATE TABLE `item_meli_sale_terms` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `item_meli_id` INT NOT NULL,
+    `name` VARCHAR(255),
+    `value_id` INT,
+    `value_name` VARCHAR(255),
+    CONSTRAINT `fk_sale_terms_item` 
+        FOREIGN KEY (`item_meli_id`) REFERENCES `item_meli`(`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    INDEX (`item_meli_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+-- values_sale_terms
+CREATE TABLE `values_sale_terms` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `item_meli_sale_terms_id` INT NOT NULL,
+    `name` VARCHAR(255),
+    CONSTRAINT `fk_values_sale_terms`
+        FOREIGN KEY (`item_meli_sale_terms_id`) REFERENCES `item_meli_sale_terms`(`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    INDEX (`item_meli_sale_terms_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+-- item_meli_shipping
+CREATE TABLE `item_meli_shipping` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `item_meli_id` INT NOT NULL,
+    `mode` VARCHAR(20),
+    CONSTRAINT `fk_shipping_item`
+        FOREIGN KEY (`item_meli_id`) REFERENCES `item_meli`(`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    INDEX (`item_meli_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+
+
+
 ```
 
 ### Valores de garantia para mercado libre
