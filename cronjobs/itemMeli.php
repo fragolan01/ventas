@@ -4,10 +4,18 @@ ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
 // Cargar la conexión a la base de datos. La ruta es relativa a la carpeta cronjobs.
-require_once 'app/models/conexion.php'; 
+// require_once '/app/models/conexion.php'; 
+
+// require_once __DIR__ . 'app/models/conexion.php';
+// require_once __DIR__ . '/../app/models/conexion.php';
+require_once __DIR__ . '../../app/models/conexion.php';
+
 
 // Carga las key de api syscom
-$secrets = require 'config/secrets.php';
+// $secrets = require 'config/secrets.php';
+// $secrets = require __DIR__ . '/../config/secrets.php';
+$secrets = require __DIR__ . '../../config/secrets.php';
+
 
 // Obtener el token de Syscom del array de secretos
 $token = $secrets['prod_mercado_libre']['prodtToken'];

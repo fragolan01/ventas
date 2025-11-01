@@ -25,6 +25,12 @@ $conf = [
             'view' => 'ingresoProductos/importar_syscom.php',
             'viewProduct' => 'ingresoProductos/lista_productos.php',
             'layout' => 'ingresoProductos/_layoutProductosSys.php'
+        ],
+        'items' => [
+            'view' => 'items/importar_items.php',
+            'viewItems' => 'ingresoItems/lista_items.php',
+            'layout' => 'items/_layoutItemsMeli.php'
         ]
+
     ]
 ];

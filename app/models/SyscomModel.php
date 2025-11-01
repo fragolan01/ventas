@@ -36,7 +36,7 @@ class SyscomModel extends Model
         return $producto['id'] ?? null;
     }
 
-    // === 🔹 NUEVO MÉTODO PARA MÚLTIPLES PRODUCTOS ===
+    // NUEVO MÉTODO PARA MuLTIPLES PRODUCTOS
     public function obtenerProductosPorIds(array $ids)
     {
         if (empty($ids)) return [];

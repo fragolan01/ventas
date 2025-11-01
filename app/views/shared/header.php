@@ -80,7 +80,7 @@
                         </li>
                         <li><hr class="dropdown-divider"></li>
                         <li>
-                            <a class="dropdown-item" href="#">Otra Opción</a>
+                            <a class="dropdown-item" href="/items">Ingresa ItemID</a>
                         </li>
                     </ul>
                 </li>
