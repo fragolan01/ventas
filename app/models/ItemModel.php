@@ -61,9 +61,40 @@ class ItemModel extends Model
     // === ITEMS INSERCIÓN ===
     private function insertaItem($data)
     {
-        // ... (Tu código de inserción SQL y binding es correcto) ...
-        $sql = "INSERT INTO item_meli (item_id, site_id, title, family_name, family_id, seller_id, category_id, user_product_id, official_store_id, price, base_price, original_price, inventory_id, currency_id, initial_quantity, available_quantity, sold_quantity, buying_mode, listing_type_id, start_time, permalink, thumbnail_id, video_id, descriptions, accepts_mercadopago, international_delivery_mode, warranty, catalog_product_id, domain_id, date_created, channels) 
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
+        $sql = "INSERT INTO item_meli (
+        item_id, 
+        site_id, 
+        title, 
+        family_name, 
+        family_id, 
+        seller_id, 
+        category_id, 
+        user_product_id, 
+        official_store_id, 
+        price, 
+        base_price, 
+        original_price, 
+        inventory_id, 
+        initial_quantity,
+        available_quantity,
+        sold_quantity, 
+        buying_mode, 
+        listing_type_id, 
+        start_time,
+        condicion,
+        permalink,
+        thumbnail_id,
+        video_id,
+        descriptions,
+        accepts_mercadopago,
+        international_delivery_mode,
+        warranty,
+        catalog_product_id,
+        domain_id,
+        date_created, 
+        channels) 
+        
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         $stmt = $this->db->prepare($sql);
 
@@ -72,17 +103,40 @@ class ItemModel extends Model
             return false;
         }
 
-        $types = "sssiissidddssiiisssssssissssss";
+        $types = "sssiissidddssiiisssssssisssssss";
         
         $stmt->bind_param($types,
-            $data['item_id'], $data['site_id'], $data['title'], $data['family_name'],
-            $data['family_id'], $data['seller_id'], $data['category_id'], $data['user_product_id'],
-            $data['official_store_id'], $data['price'], $data['base_price'], $data['original_price'],
-            $data['inventory_id'], $data['currency_id'], $data['initial_quantity'], $data['available_quantity'],
-            $data['sold_quantity'], $data['buying_mode'], $data['listing_type_id'], $data['start_time'], 
-             $data['permalink'], $data['thumbnail_id'], $data['video_id'], 
-            $data['descriptions'], $data['accepts_mercadopago'], $data['international_delivery_mode'], $data['warranty'], 
-            $data['catalog_product_id'], $data['domain_id'], $data['date_created'], $data['channels']
+            $data['item_id'], 
+            $data['site_id'], 
+            $data['title'], 
+            $data['family_name'],
+            $data['family_id'], 
+            $data['seller_id'], 
+            $data['category_id'], 
+            $data['user_product_id'],
+            $data['official_store_id'], 
+            $data['price'], 
+            $data['base_price'], 
+            $data['original_price'],
+            $data['inventory_id'], 
+            $data['initial_quantity'], 
+            $data['available_quantity'],
+            $data['sold_quantity'], 
+            $data['buying_mode'], 
+            $data['listing_type_id'], 
+            $data['start_time'], 
+            $data['condicion'], 
+            $data['permalink'],
+            $data['thumbnail_id'], 
+            $data['video_id'], 
+            $data['descriptions'], 
+            $data['accepts_mercadopago'], 
+            $data['international_delivery_mode'], 
+            $data['warranty'], 
+            $data['catalog_product_id'], 
+            $data['domain_id'],
+            $data['date_created'], 
+            $data['channels']            
         );
 
         $result = $stmt->execute();

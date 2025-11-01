@@ -8,7 +8,7 @@
             <input 
                 type="text"
                 class="form-control" 
-                name="item_ids"             id="item_ids"               placeholder="Ejemplo: MLM3764133956, MLM2361209353, MLM2336618827" 
+                name="item_ids"             id="item_ids"               placeholder="MLM3764133956,MLM2361209353" 
             >
         </div>
         <button type="submit" class="btn btn-primary">Importar Items</button>

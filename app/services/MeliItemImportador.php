@@ -56,7 +56,7 @@ class MeliImportador
 
             //2. Mapeo de datos
             $datosParaDB = [
-                'meli_id' => $item_data['id'],
+                'item_id' => $item_data['id'],
                 'site_id' => $item_data['site_id'],
                 'title' => $item_data['title'],
                 'family_name' => $item_data['family_name'],
@@ -75,7 +75,7 @@ class MeliImportador
                 'buying_mode' => $item_data['buying_mode'],
                 'listing_type_id' => $item_data['listing_type_id'],
                 'start_time' => $item_data['start_time'],
-                // 'condition' => $item_data['condition'],
+                'condicion' => $item_data['condition'],
                 'permalink' => $item_data['permalink'],
                 'thumbnail_id' => $item_data['thumbnail_id'],
                 'video_id' => $item_data['video_id'],
@@ -86,7 +86,8 @@ class MeliImportador
                 'catalog_product_id' => $item_data['catalog_product_id'],
                 'domain_id' => $item_data['domain_id'],
                 'date_created' => $item_data['date_created'],
-                'channels' => $item_data['channels']
+                'channels' => implode(', ', $item_data['channels'])
+                // 'channels' => $item_data['channels']
             ];
 
             // 3. Insertar el item en la base de datos (Modelo)
