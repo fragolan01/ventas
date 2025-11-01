@@ -4,7 +4,7 @@
       <thead>
         <tr>
 
-          <th scope="col">item_id</th>
+          <th scope="col">item_id</th>--
           <th scope="col">title</th>
           <th scope="col">family_id</th>
           <th scope="col">category_id</th>
