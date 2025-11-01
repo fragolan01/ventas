@@ -77,56 +77,5 @@ class ItemsController {
 // ...
 
     
-/*
-    public function procesarImportacionItems() {
-        
-        // Variables globales necesarias
-        global $conf; 
-        global $VIEW_PATH;
-        global $LAYOUT_PATH;
-        
-        $resultados = [];
-        $items = []; 
-
-        // 1. Validar solicitud y obtener datos (esperamos 'item_ids' del formulario)
-        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['item_ids'])) {
-            // Si no es un POST válido, redirigir o recargar el formulario vacío
-            $this->importarItems();
-            return;
-        }
-
-        $data = [
-            // 'item_id_input' es la clave que MeliImportador.php espera
-            'item_id_input' => $_POST['item_ids'] 
-        ];
-
-        // 2. Procesar con MeliImportador
-        try {
-            // Se asume que MeliImportador ya incluye ItemModel y MeliApiClient
-            $meliImportador = new MeliImportador();
-            
-            // $resultados contiene el reporte (ID => ['success' => bool, 'message' => string])
-            $resultados = $meliImportador->importarItemsPorLista($data);
-
-        } catch (\Throwable $e) {
-            // Manejo de error fatal (ej. fallo de autoload o error de configuración)
-            $resultados['fatal_error'] = ['success' => false, 'message' => "Error fatal del sistema al importar: " . $e->getMessage()];
-            error_log("Error fatal en MeliImportador: " . $e->getMessage());
-        }
-
-        // 3. Recargar la vista del formulario para mostrar el reporte ($resultados)
-        
-        // Cargar la configuración de la vista de formulario
-        $config_items = $conf['modules']['items']; 
-        $modulo = 'items';
-        
-        // Las variables $layout y $viewContent son las mismas que usa importarItems()
-        $layout = LAYOUT_PATH . $config_items['layout']; 
-        $viewContent = VIEW_PATH . $config_items['view']; 
-
-        // Requerir el layout para mostrar el formulario Y los resultados
-        require_once $layout;
-    }
- */
 
 }
