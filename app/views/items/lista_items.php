@@ -24,21 +24,18 @@
       <tbody>
         <?php foreach ($items as $item): ?>
             <tr>
-                <th scope="row"><?php echo $item['item_id ']; ?></th>
+                <th scope="row"><?php echo $item['item_id']; ?></th> 
                 <td><?php echo $item['title']; ?></td>
                 <td><?php echo $item['family_id']; ?></td>
                 <td><?php echo $item['category_id']; ?></td>
                 <td><?php echo $item['price']; ?></td>
                 <td><?php echo $item['initial_quantity']; ?></td>
-                <td><?php echo $item['available_quantity']; ?></td>
-                <td><?php echo $item['sold_quantity']; ?></td>
+                <td><?php echo $item['available_quantity']; ?></td> <td><?php echo $item['sold_quantity']; ?></td>
                 <td><?php echo $item['listing_type_id']; ?></td>
                 <td><?php echo $item['permalink']; ?></td>
-                <td><?php echo $item['warranty']; ?></td>
-                <td><?php echo $item['catalog_product_id']; ?></td>
+                <td><?php echo $item['warranty']; ?></td> <td><?php echo $item['catalog_product_id']; ?></td>
                 <td><?php echo $item['domain_id']; ?></td>
                 <td><?php echo $item['channels']; ?></td>
-
             </tr>
         <?php endforeach; ?>
       </tbody>

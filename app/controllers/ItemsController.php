@@ -21,7 +21,7 @@ class ItemsController {
         
         global $conf; 
         global $VIEW_PATH;
-        global $LAYOUT_PATH;
+        // global $LAYOUT_PATH;
 
         $resultados = [];
         $items = []; 
@@ -44,7 +44,7 @@ class ItemsController {
         
         global $conf; 
         global $VIEW_PATH;
-        global $LAYOUT_PATH; // Asegurar que exista
+        global $LAYOUT_PATH;
         
         $resultados = [];
         $items = []; 
@@ -75,6 +75,35 @@ class ItemsController {
         require_once $layout;
     }
 // ...
+
+
+// Listar los items
+    public function listaItems() {
+
+        //configuración global
+        global $conf; 
+
+        // ruta de vistas si está en el router
+        global $VIEW_PATH;  
+
+        $itemModel = new ItemModel();
+        $items = $itemModel->obtenerTodosLosItems();
+        
+        // Inicializar otras variables necesarias para el layout/vistas
+        $modulo = 'items';
+        $resultados = [];
+
+        $viewContent = VIEW_PATH . $conf['modules']['items']['viewItems'];
+
+        $layout = VIEW_PATH . $conf['modules']['items']['layout'];
+        
+        // 3. Cargar el layout
+        require_once $layout;
+
+
+
+    }
+
 
     
 
