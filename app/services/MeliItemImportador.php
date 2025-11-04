@@ -41,7 +41,9 @@ class MeliImportador
         $itemId_a_consultar = array_diff($item_id_input, $id);
 
         foreach ($itemId_a_consultar as $itemId) {
-            
+
+
+              
             $item_data = $this->meliApiClient->consultarApiMeli($itemId);
 
             // 1. Manejo de Errores de la API
@@ -53,6 +55,23 @@ class MeliImportador
                 $resultados[$itemId] = ['success' => false, 'message' => "Fallo de conexión o respuesta API inválida."];
                 continue;
             }
+
+
+            // Función anónima para convertir fechas ISO 8601 a formato MySQL
+            $convertIsoToMySQL = function (?string $isoDate): ?string {
+                if (empty($isoDate)) return null;
+                try {
+                    $dt = new DateTime($isoDate);
+                    return $dt->format('Y-m-d H:i:s');
+                } catch (Exception $e) {
+                    return null;
+                }
+            };
+
+            // Convertir fechas ISO
+            $mysql_start_time = $convertIsoToMySQL($item_data['start_time']);
+            $mysql_date_created = $convertIsoToMySQL($item_data['date_created']);
+
 
             //2. Mapeo de datos
             $datosParaDB = [
@@ -74,7 +93,7 @@ class MeliImportador
                 'sold_quantity' => $item_data['sold_quantity'],
                 'buying_mode' => $item_data['buying_mode'],
                 'listing_type_id' => $item_data['listing_type_id'],
-                'start_time' => $item_data['start_time'],
+                'start_time' => $mysql_start_time,   // convertido
                 'condicion' => $item_data['condition'],
                 'permalink' => $item_data['permalink'],
                 'thumbnail_id' => $item_data['thumbnail_id'],
@@ -85,9 +104,8 @@ class MeliImportador
                 'warranty' => $item_data['warranty'],
                 'catalog_product_id' => $item_data['catalog_product_id'],
                 'domain_id' => $item_data['domain_id'],
-                'date_created' => $item_data['date_created'],
+                'date_created' => $mysql_date_created, //convertido
                 'channels' => implode(', ', $item_data['channels'])
-                // 'channels' => $item_data['channels']
             ];
 
             // 3. Insertar el item en la base de datos (Modelo)

@@ -5,19 +5,19 @@
         <tr>
 
           <th scope="col">item_id</th>--
-          <th scope="col">title</th>
-          <th scope="col">family_id</th>
-          <th scope="col">category_id</th>
-          <th scope="col">price</th>
-          <th scope="col">initial_quantity</th>
-          <th scope="col">aviable_quantity</th>
-          <th scope="col">sold_quantity</th>
-          <th scope="col">listing_type_id</th>
-          <th scope="col">permalink</th>
-          <th scope="col">waranty</th>
-          <th scope="col">catalog_product_id</th>
-          <th scope="col">domain_id</th>
-          <th scope="col">chanels</th>
+          <th scope="col">titulo</th>
+          <th scope="col">family id</th>
+          <th scope="col">category id</th>
+          <th scope="col">Precio</th>
+          <th scope="col">Cantidad inicial</th>
+          <th scope="col">Cantidad Disponible</th>
+          <th scope="col">Cantidad vendida</th>
+          <th scope="col">Tipo de lista</th>
+          <th scope="col">link</th>
+          <th scope="col">garantia</th>
+          <th scope="col">Catalogo Prod.</th>
+          <th scope="col">Dominio</th>
+          <th scope="col">Canales</th>
 
         </tr>
       </thead>
@@ -32,7 +32,11 @@
                 <td><?php echo $item['initial_quantity']; ?></td>
                 <td><?php echo $item['available_quantity']; ?></td> <td><?php echo $item['sold_quantity']; ?></td>
                 <td><?php echo $item['listing_type_id']; ?></td>
-                <td><?php echo $item['permalink']; ?></td>
+
+                <td>
+                    <a href="<?php echo htmlspecialchars($item['permalink']); ?>" target="_blank">Publicación</a>
+                </td>
+
                 <td><?php echo $item['warranty']; ?></td> <td><?php echo $item['catalog_product_id']; ?></td>
                 <td><?php echo $item['domain_id']; ?></td>
                 <td><?php echo $item['channels']; ?></td>

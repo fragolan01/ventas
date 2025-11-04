@@ -1,14 +1,12 @@
 <?php
-// app/controllers/SyscomController.php
 
-// session_start();
+session_start();
 
 require_once '../app/models/ItemModel.php';
 require_once '../app/services/MeliApiClient.php';
 require_once '../app/services/MeliItemImportador.php';
 
 
-// app/controllers/ItemsController.php (CORREGIDO)
 
 class ItemsController {
 
@@ -25,6 +23,16 @@ class ItemsController {
 
         $resultados = [];
         $items = []; 
+
+        // Verifica sesion PRG
+        if (isset($_SESSION['import_success']) && $_SESSION['import_success'] === true) {
+            $resultados = $_SESSION['import_results'] ?? [];
+            
+            // **2. LIMPIEZA DE SESIÓN (Crucial para evitar reenvío)**
+            unset($_SESSION['import_results']);
+            unset($_SESSION['import_success']);
+        }
+
 
         // 1. Obtener la configuración del módulo (array completo)
         $config_items = $conf['modules']['items']; 
@@ -44,15 +52,16 @@ class ItemsController {
         
         global $conf; 
         global $VIEW_PATH;
-        global $LAYOUT_PATH;
+        // global $LAYOUT_PATH;
         
+
         $resultados = [];
         $items = []; 
         
         if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['item_ids'])) {
             // Si llega sin POST, simplemente recargar el formulario
-            $this->importarItems();
-            return;
+            header('Location: /ventas/Items/importarItems'); 
+            exit();
         }
 
         $data = ['item_id_input' => $_POST['item_ids']]; 
@@ -65,14 +74,23 @@ class ItemsController {
             error_log("Error fatal en MeliImportador: " . $e->getMessage());
         }
 
+
+        // 3. **ALMACENAR RESULTADOS y REDIRECCIÓN (PRG)**
+        $_SESSION['import_results'] = $resultados;
+        $_SESSION['import_success'] = true;
+
+        header('Location: /ventas/Items/importarItems'); 
+        exit();
+
+
         // --- Carga de Vistas y Layout (Mismo patrón que importarItems) ---
-        $config_items = $conf['modules']['items']; 
-        $modulo = 'items';
+        // $config_items = $conf['modules']['items']; 
+        // $modulo = 'items';
         
-        $layout = VIEW_PATH . $config_items['layout']; 
-        $viewContent = VIEW_PATH . $config_items['view']; // Definir $viewContent aquí también
+        // $layout = VIEW_PATH . $config_items['layout']; 
+        // $viewContent = VIEW_PATH . $config_items['view']; // Definir $viewContent aquí también
         
-        require_once $layout;
+        // require_once $layout;
     }
 // ...
 

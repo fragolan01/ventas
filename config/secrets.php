@@ -2,7 +2,8 @@
 
 // Windows (xampp)
 // $rutaTokenTest = __DIR__ . '\testTokenML\tokens.json';
-$rutaTokenProd = __DIR__ . '\prodTokenML\tokens.json';
+// $rutaTokenProd = __DIR__ . '\prodTokenML\tokens.json';
+$rutaTokenProd = __DIR__ . '/prodTokenML/tokens.json';
 
 // Linux (CPanel)
 $rutaTokenTest = __DIR__ . '/testTokenML/tokens.json';
