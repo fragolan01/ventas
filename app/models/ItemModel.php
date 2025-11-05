@@ -87,14 +87,20 @@ class ItemModel extends Model
         video_id,
         descriptions,
         accepts_mercadopago,
+
+        shipping,
+
         international_delivery_mode,
+
+        estado,
+
         warranty,
         catalog_product_id,
         domain_id,
         date_created, 
         channels) 
         
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         $stmt = $this->db->prepare($sql);
 
@@ -103,7 +109,7 @@ class ItemModel extends Model
             return false;
         }
 
-        $types = "sssiissidddssiiisssssssisssssss";
+        $types = "sssiissidddssiiisssssssisssssssss";
         
         $stmt->bind_param($types,
             $data['item_id'], 
@@ -131,7 +137,13 @@ class ItemModel extends Model
             $data['video_id'], 
             $data['descriptions'], 
             $data['accepts_mercadopago'], 
+
+            $data['shipping'], 
+
             $data['international_delivery_mode'], 
+
+            $data['estado'], 
+
             $data['warranty'], 
             $data['catalog_product_id'], 
             $data['domain_id'],

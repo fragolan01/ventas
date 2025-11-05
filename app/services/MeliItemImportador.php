@@ -79,7 +79,7 @@ class MeliImportador
                 'site_id' => $item_data['site_id'],
                 'title' => $item_data['title'],
                 'family_name' => $item_data['family_name'],
-                'family_id' => $item_data['family_id'],
+                'family_id' => $item_data['family_id'] ?? NULL,
                 'seller_id' => $item_data['seller_id'],
                 'category_id' => $item_data['category_id'],
                 'user_product_id' => $item_data['user_product_id'],
@@ -100,7 +100,15 @@ class MeliImportador
                 'video_id' => $item_data['video_id'],
                 'descriptions' => $item_data['descriptions'],
                 'accepts_mercadopago' => $item_data['accepts_mercadopago'],
+
+                // 'shipping' => implode(', ', $item_data['mode']),
+                'shipping' => $item_data['shipping']['mode'],
+
                 'international_delivery_mode' => $item_data['international_delivery_mode'],
+                
+                // Agregado
+                'estado' => $item_data['status'],
+
                 'warranty' => $item_data['warranty'],
                 'catalog_product_id' => $item_data['catalog_product_id'],
                 'domain_id' => $item_data['domain_id'],

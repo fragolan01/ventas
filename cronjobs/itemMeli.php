@@ -28,7 +28,7 @@ $token = $secrets['prod_mercado_libre']['prodtToken'];
  * @param string $token Token de autorización
  * @return array|null Respuesta decodificada de la API o null si falla
  */
-$itemId = "MLM2345422965";
+$itemId = "MLM4186111340";
 function consultarApiMeli($itemId, $token) {
     $url = "https://api.mercadolibre.com/items/$itemId";
     $headers = ["Authorization: Bearer $token"];
