@@ -40,7 +40,7 @@
                 
                 <td><?php echo $item['domain_id']; ?></td>
                 <td><?php echo $item['shipping']; ?></td>
-                <td><?php echo $item['start_time']; ?></td>
+                <td><?php echo $item['date_created']; ?></td>
             </tr>
         <?php endforeach; ?>
       </tbody>

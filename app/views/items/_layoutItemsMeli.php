@@ -20,7 +20,7 @@
                     </li>
 
                     <li class="nav-item">
-                        <a class="nav-link" href="/ventas/Items/listaDeEnvios">
+                        <a class="nav-link" href="/ventas/Items/detalleDeEnvios">
                             Detalle de envios
                         </a>
                     </li>

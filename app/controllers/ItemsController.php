@@ -101,7 +101,7 @@ class ItemsController {
         //configuración global
         global $conf; 
 
-        // ruta de vistas si está en el router
+        // ruta de vistas ROUTER
         global $VIEW_PATH;  
 
         $itemModel = new ItemModel();
@@ -121,6 +121,8 @@ class ItemsController {
 
 
     }
+
+
 
 
     

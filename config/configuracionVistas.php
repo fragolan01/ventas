@@ -29,6 +29,7 @@ $conf = [
         'items' => [
             'view' => 'items/importar_items.php',
             'viewItems' => 'items/lista_items.php',
+          
             'layout' => 'items/_layoutItemsMeli.php'
         ]
 
