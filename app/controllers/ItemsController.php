@@ -124,6 +124,35 @@ class ItemsController {
 
 
 
+    // Listar los items
+    public function detalleDeEnvios() {
+
+        //configuración global
+        global $conf; 
+
+        // ruta de vistas ROUTER
+        global $VIEW_PATH;  
+
+        $itemModel = new ItemModel();
+        // $items = $itemModel->obtenerTodosLosItems();
+        
+        // Inicializar otras variables necesarias para el layout/vistas
+        $modulo = 'items';
+        $resultados = [];
+
+        $viewContent = VIEW_PATH . $conf['modules']['items']['viewEnvios'];
+
+        $layout = VIEW_PATH . $conf['modules']['items']['layout'];
+        
+        // 3. Cargar el layout
+        require_once $layout;
+
+
+
+    }
+
+
+
 
     
 
