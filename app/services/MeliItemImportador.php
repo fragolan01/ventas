@@ -13,7 +13,9 @@ class MeliImportador
         $this->itemModel = new ItemModel(); 
         
         // Usar __DIR__ para rutas seguras en servicios
-        $secrets = require __DIR__ . '/../../config/secrets.php'; 
+        $secrets = require __DIR__ . '/../../cronjobs/secrets.php'; 
+        // $secrets = require __DIR__ . '/cronjobs/secrets.php'; 
+
         $token = $secrets['prod_mercado_libre']['prodtToken'];
         
         $this->meliApiClient = new MeliApiClient($token); 

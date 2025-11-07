@@ -46,7 +46,7 @@ function get_tokens() {
             return array($token_info['access_token'], $token_info['refresh_token']);
         }
     }
-    return renew_token("TG-690b90a1d2ee9800014467fb-2424408169");  // Initial refresh token
+    return renew_token("TG-6855e5a41d732f00014e48f3-2424408169");  // Initial refresh token
 }
 
 // Get the access token and refresh token
