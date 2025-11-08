@@ -46,7 +46,9 @@ class MeliImportador
 
 
               
-            $item_data = $this->meliApiClient->consultarApiMeli($itemId);
+            // $item_data = $this->meliApiClient->consultarApiMeli($itemId);
+            $item_data = $this->meliApiClient->getItem($itemId);
+
 
             // 1. Manejo de Errores de la API
             if (isset($item_data['error']) && $item_data['error'] === true) {
@@ -105,6 +107,8 @@ class MeliImportador
 
                 // 'shipping' => implode(', ', $item_data['mode']),
                 'shipping' => $item_data['shipping']['mode'],
+                'logistic_type' => $item_data['shipping']['logistic_type'],
+
 
                 'international_delivery_mode' => $item_data['international_delivery_mode'],
                 

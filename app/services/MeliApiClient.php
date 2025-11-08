@@ -3,45 +3,43 @@
 class MeliApiClient
 {
     private $token;
+    
+    private $url_bsse = 'https://api.mercadolibre.com/';
 
     public function __construct($token)
     {
         $this->token = $token;
     }
 
-    /**
-     * Obtener los datos de Item Meli usando stream_context_create.
-     * @param string $itemID
-     * @return array|null
-     */
-    public function consultarApiMeli($itemId) {
-        $url = "https://api.mercadolibre.com/items/" . $itemId;
-
+    public function request($method, $endpoint, $body = null)
+    {
         $headers = [
             "Authorization: Bearer " . $this->token,
-            "Accept: application/json"
+            "Accept: application/json",
+            "Content-Type: application/json"
         ];
 
-        // 1. Crear el contexto HTTP para la solicitud GET
-        $context = stream_context_create([
+        // asignar array
+        $contextOptions = [
             "http" => [
-                "method" => "GET",
-                // Implode une el array de encabezados con el separador necesario
-                "header" => implode("\r\n", $headers), 
-                "ignore_errors" => true // Crucial para poder leer la respuesta incluso si es 4xx o 5xx
+                "method" => strtoupper($method),
+                "header" => implode("\r\n", $headers),
+                "ignore_errors" => true
             ]
-        ]);
+        ];
 
-        // 2. Ejecutar la solicitud
-        $response = @file_get_contents($url, false, $context);
-
-        // 3. Manejo de errores de conexión
-        if ($response === false) {
-            error_log("Error: no se pudo conectar con la API de Mercado Libre para item: $itemId");
-            return null;
+        if ($body !== null) {
+            $contextOptions["http"]["content"] = json_encode($body);
         }
 
-        // 4. Obtener el código de respuesta HTTP desde los encabezados de respuesta
+        //typo: $this->url_bsse → $this->url_base
+        $response = @file_get_contents($this->url_bsse . $endpoint, false, stream_context_create($contextOptions));
+
+        if ($response === false) {
+            error_log("Error: no se pudo conectar con la API de Mercado Libre para item: $endpoint");
+            return ['error' => true, 'message' => 'Error de conexión con la API.'];
+        }
+
         $http_code = 0;
         if (isset($http_response_header[0])) {
             preg_match('/\s(\d{3})\s/', $http_response_header[0], $matches);
@@ -50,22 +48,40 @@ class MeliApiClient
 
         $data = json_decode($response, true);
 
-        // 5. Manejo de errores de la API (códigos no 200)
-        if ($http_code != 200) {
-            // Si el código no es 200 (ej. 404), registramos el error y devolvemos la información del error.
-            $errorMessage = isset($data['message']) ? $data['message'] : 'Error desconocido de la API.';
-            error_log("Error al consultar la API de ML para item $itemId. HTTP: $http_code. Mensaje: $errorMessage");
-            
-            // Devolvemos la estructura de error para que el Importador la procese
-            return ['error' => true, 'http_code' => $http_code, 'message' => $errorMessage];
-        }
-
-        // 6. Validación de la respuesta exitosa
-        if (!$data || !isset($data['id'])) {
-            error_log("Respuesta de ML inválida o incompleta para item $itemId.");
-            return null;
+        if ($http_code < 200 || $http_code >= 300) {
+            $msg = $data['message'] ?? 'Error desconocido';
+            error_log("Error API ML [$http_code] en $endpoint: $msg");
+            return ['error' => true, 'http_code' => $http_code, 'message' => $msg];
         }
 
         return $data;
     }
+
+    /**
+     * GET - Consultar un item
+     */
+    public function getItem($itemId)
+    {
+        return $this->request('GET', "items/{$itemId}");
+
+ 
+    }
+
+    /**
+     * PUT - Actualizar un item
+     */
+    public function updateItem($itemId, array $data)
+    {
+        return $this->request('PUT', "items/{$itemId}", $data);
+    }
+
+    /**
+     * GET - Consultar usuario
+     */
+    public function getUser($userId)
+    {
+        return $this->request('GET', "users/{$userId}");
+    }
+
+
 }

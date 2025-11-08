@@ -89,6 +89,7 @@ class ItemModel extends Model
         accepts_mercadopago,
 
         shipping,
+        logistic_type,
 
         international_delivery_mode,
 
@@ -100,7 +101,7 @@ class ItemModel extends Model
         date_created, 
         channels) 
         
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
         
         $stmt = $this->db->prepare($sql);
 
@@ -109,7 +110,7 @@ class ItemModel extends Model
             return false;
         }
 
-        $types = "sssiissidddssiiisssssssisssssssss";
+        $types = "sssiissidddssiiisssssssissssssssss";
         
         $stmt->bind_param($types,
             $data['item_id'], 
@@ -138,12 +139,11 @@ class ItemModel extends Model
             $data['descriptions'], 
             $data['accepts_mercadopago'], 
 
-            $data['shipping'], 
+            $data['shipping'],
+            $data['logistic_type'], 
 
             $data['international_delivery_mode'], 
-
             $data['estado'], 
-
             $data['warranty'], 
             $data['catalog_product_id'], 
             $data['domain_id'],
