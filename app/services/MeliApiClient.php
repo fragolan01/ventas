@@ -57,6 +57,23 @@ class MeliApiClient
         return $data;
     }
 
+
+    
+    //  GET - envio gratuito para un usuario
+    public function getFreeShippingOptions(
+        $userId,
+        array $params = []
+    ) {
+        // query string de parámetros dinámicos
+        $query = http_build_query($params);
+
+        // Llamar al método genérico con el endpoint completo
+        return $this->request('GET', "users/{$userId}/shipping_options/free?$query");
+    }
+
+
+
+
     /**
      * GET - Consultar un item
      */
