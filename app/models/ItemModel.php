@@ -179,4 +179,23 @@ class ItemModel extends Model
         return $productos;       
     }
 
+
+
+    // Datos Consulta costo envio
+    public function datosConstoEnvio($item_id)
+    {
+        $sql = "SELECT price, listing_type_id, shipping, condicion, logistic_type, item_id
+        FROM `item_meli` 
+        WHERE item_id = ?";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bind_param("s", $itemId);
+        $stmt->execute();
+        
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+        $stmt->close();
+
+    }
+
 }

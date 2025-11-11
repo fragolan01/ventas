@@ -59,7 +59,7 @@ class MeliApiClient
 
 
     
-    //  GET - envio gratuito para un usuario
+    //  Consulta costo envio
     public function getFreeShippingOptions(
         $userId,
         array $params = []
@@ -67,7 +67,7 @@ class MeliApiClient
         // query string de parámetros dinámicos
         $query = http_build_query($params);
 
-        // Llamar al método genérico con el endpoint completo
+        // enpoit generico
         return $this->request('GET', "users/{$userId}/shipping_options/free?$query");
     }
 
