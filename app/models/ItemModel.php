@@ -5,6 +5,8 @@ require_once 'Model.php';
 class ItemModel extends Model
 {
 
+    /*
+    
     // El Importador ahora llama a este método directamente:
     public function insertarNuevoItem($data) 
     {
@@ -14,7 +16,7 @@ class ItemModel extends Model
     // === ITEM BUSCADOR ===
     public function obtenerItemId($item_id)
     {
-        $sql = "SELECT id FROM item_meli WHERE item_id = ?"; 
+        $sql = "SELECT item_id FROM item_meli WHERE item_id = ?"; 
         $stmt = $this->db->prepare($sql);
 
         if (!$stmt) {
@@ -28,7 +30,7 @@ class ItemModel extends Model
         $producto = $result->fetch_assoc();
         $stmt->close();
 
-        return $producto['id'] ?? null;
+        return $producto['item_id'] ?? null;
     }
 
     // multiples items
@@ -57,6 +59,7 @@ class ItemModel extends Model
 
         return $productos;
     }
+    
 
     // === ITEMS INSERCIÓN ===
     private function insertaItem($data)
@@ -87,14 +90,10 @@ class ItemModel extends Model
         video_id,
         descriptions,
         accepts_mercadopago,
-
         shipping,
         logistic_type,
-
         international_delivery_mode,
-
         estado,
-
         warranty,
         catalog_product_id,
         domain_id,
@@ -138,10 +137,8 @@ class ItemModel extends Model
             $data['video_id'], 
             $data['descriptions'], 
             $data['accepts_mercadopago'], 
-
             $data['shipping'],
             $data['logistic_type'], 
-
             $data['international_delivery_mode'], 
             $data['estado'], 
             $data['warranty'], 
@@ -161,9 +158,9 @@ class ItemModel extends Model
     }
 
 
-    /**
-     * Muestra todos los ITEMS de la tabla
-     */
+
+    
+    // Muestra todos los ITEMS de la tabla
     public function obtenerTodosLosItems()
     {
         $sql = "SELECT * FROM item_meli";
@@ -178,24 +175,48 @@ class ItemModel extends Model
 
         return $productos;       
     }
-
+*/
 
 
     // Datos Consulta costo envio
-    public function datosConstoEnvio($item_id)
-    {
-        $sql = "SELECT price, listing_type_id, shipping, condicion, logistic_type, item_id
-        FROM `item_meli` 
-        WHERE item_id = ?";
+ public function datosCostoEnvio($item_id)                
+{
+    $sql = "SELECT item_id, price, listing_type_id, `shipping`, estado, logistic_type 
+            FROM item_meli 
+            WHERE item_id = ?";
 
-        $stmt = $this->db->prepare($sql);
-        $stmt->bind_param("s", $itemId);
-        $stmt->execute();
-        
-        $result = $stmt->get_result();
-        $data = $result->fetch_assoc();
-        $stmt->close();
+    $stmt = $this->db->prepare($sql);
 
+    if (!$stmt) {
+        error_log("Error al preparar la consulta de datosCostoEnvio: " . $this->db->error);
+        return null;
     }
+
+    $stmt->bind_param("s", $item_id);
+
+    if (!$stmt->execute()) {
+        error_log("Error al ejecutar datosCostoEnvio: " . $stmt->error);
+        return null;
+    }
+
+    $result = $stmt->get_result();
+    $data = $result->fetch_assoc();
+    $stmt->close();
+
+    if ($data) {
+        return [
+            'item_id' => $data['item_id'],
+            'item_price' => $data['price'],
+            'listing_type_id' => $data['listing_type_id'],
+            'mode' => $data['shipping'],
+            'condition' => $data['estado'],
+            'logistic_type' => $data['logistic_type']
+        ];
+    }
+
+    return null;
+}
+
+
 
 }

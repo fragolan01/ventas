@@ -892,21 +892,25 @@ CREATE TABLE `item_meli` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
-
--- item_meli_sale_terms
-CREATE TABLE `item_meli_sale_terms` (
+-- Tabla de envíos relacionada
+CREATE TABLE `envios_meli` (
     `id` INT AUTO_INCREMENT PRIMARY KEY,
-    `item_meli_id` INT NOT NULL,
-    `name` VARCHAR(255),
-    `value_id` INT,
-    `value_name` VARCHAR(255),
-    CONSTRAINT `fk_sale_terms_item` 
-        FOREIGN KEY (`item_meli_id`) REFERENCES `item_meli`(`id`)
+    `item_id` VARCHAR(50) NOT NULL UNIQUE KEY,
+    `item_price` DECIMAL (10,2),
+    `listing_type_id` VARCHAR(20),
+    `mode` VARCHAR(20),
+    `condition` VARCHAR(20),
+    `logistic_type` VARCHAR(20),
+    CONSTRAINT fk_envios_item
+        FOREIGN KEY (`item_id`)
+        REFERENCES `item_meli` (`item_id`)
+        ON UPDATE CASCADE
         ON DELETE CASCADE
-        ON UPDATE CASCADE,
-    INDEX (`item_meli_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+
+
+-- Tablas creadas que no se usan
 
 -- values_sale_terms
 CREATE TABLE `values_sale_terms` (
@@ -933,6 +937,20 @@ CREATE TABLE `item_meli_shipping` (
     INDEX (`item_meli_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+
+-- item_meli_sale_terms
+CREATE TABLE `item_meli_sale_terms` (
+    `id` INT AUTO_INCREMENT PRIMARY KEY,
+    `item_meli_id` UNIQUE KEY INT NOT NULL,
+    `name` VARCHAR(255),
+    `value_id` INT,
+    `value_name` VARCHAR(255),
+    CONSTRAINT `fk_sale_terms_item` 
+        FOREIGN KEY (`item_meli_id`) REFERENCES `item_meli`(`id`)
+        ON DELETE CASCADE
+        ON UPDATE CASCADE,
+    INDEX (`item_meli_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
 

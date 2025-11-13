@@ -3,6 +3,8 @@
 session_start();
 
 require_once '../app/models/ItemModel.php';
+require_once '../app/models/EnviomeliModel.php';
+
 require_once '../app/services/MeliApiClient.php';
 require_once '../app/services/MeliItemImportador.php';
 
@@ -28,7 +30,7 @@ class ItemsController {
         if (isset($_SESSION['import_success']) && $_SESSION['import_success'] === true) {
             $resultados = $_SESSION['import_results'] ?? [];
             
-            // **2. LIMPIEZA DE SESIÓN (Crucial para evitar reenvío)**
+            //LIMPIEZA DE SESIÓN
             unset($_SESSION['import_results']);
             unset($_SESSION['import_success']);
         }
@@ -65,6 +67,9 @@ class ItemsController {
         }
 
         $data = ['item_id_input' => $_POST['item_ids']]; 
+
+        // $item_ids_input = $_POST['item_ids']; 
+
 
         try {
             $meliImportador = new MeliImportador();

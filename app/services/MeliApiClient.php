@@ -4,7 +4,7 @@ class MeliApiClient
 {
     private $token;
     
-    private $url_bsse = 'https://api.mercadolibre.com/';
+    private $url_base = 'https://api.mercadolibre.com/';
 
     public function __construct($token)
     {
@@ -33,7 +33,12 @@ class MeliApiClient
         }
 
         //typo: $this->url_bsse → $this->url_base
-        $response = @file_get_contents($this->url_bsse . $endpoint, false, stream_context_create($contextOptions));
+        
+        //    Si funciona
+        $response = @file_get_contents($this->url_base . $endpoint, false, stream_context_create($contextOptions));
+       
+        // nO FUnciona
+        // $response = @file_get_contents($this->url_base . $endpoint, false, stream_context_create($contextOptions));
 
         if ($response === false) {
             error_log("Error: no se pudo conectar con la API de Mercado Libre para item: $endpoint");
