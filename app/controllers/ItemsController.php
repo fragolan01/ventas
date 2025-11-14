@@ -178,7 +178,7 @@ class ItemsController {
         $resultados = [];
         
         // 2. Inicializar Servicio
-        $token = 'APP_USR-7626391564892909-111315-ca14e8e5566badf720803da87cb38e73-2424408169'; 
+        $token = 'APP_USR-7626391564892909-111322-cea1c5448dd24a5fdc555be8688bbf0d-2424408169'; 
         $updater = new ActualizaEnviosMeli($token);
         
         // 3. Procesar cada ID
@@ -201,7 +201,49 @@ class ItemsController {
         require_once $layout;
     }
 
-// ...
+
+
+    public function listaCostoEnvios()
+    {
+        //configuración global
+        global $conf; 
+        global $VIEW_PATH; 
+
+        // 1. OBTENER DATOS DE LA BASE DE DATOS
+        $envioModel = new EnviomeliModel();
+        // Llama a la función para obtener TODOS los registros de envío
+        $lista_envios = $envioModel->obtenerTodosLosEnvios();
+
+
+        // echo "<h1>Contenido de \$lista_envios:</h1>";
+        // echo "<h2>Verifica que haya 8 registros aquí.</h2>";
+        // echo "<pre style='background-color: #ffe; border: 1px solid #cc0; padding: 15px;'>";
+        // var_dump($lista_envios);
+        // echo "</pre>";
+        // die("--- Script detenido para depuración del Array ---");
+        
+        // 2. PREPARAR VARIABLES PARA LA VISTA
+        $data = [
+            'lista_envios' => $lista_envios, // Esta variable se usará en la vista
+            // Otras variables que necesites pasar
+        ];
+
+        // 3. CARGAR VISTAS Y LAYOUT
+        
+        $modulo = 'items';
+        // Utiliza la configuración de la vista para el contenido
+        $viewContent = VIEW_PATH . $conf['modules']['items']['viewResultadosEnvios'];
+        $layout = VIEW_PATH . $conf['modules']['items']['layout'];
+        
+        // 4. Cargar el layout (usando el mismo patrón de require_once)
+        require_once $layout; 
+    }
+
+
+
+
+
+
 
 
     

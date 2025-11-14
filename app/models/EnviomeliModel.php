@@ -183,6 +183,31 @@ public function insertOrUpdateShippingData(array $data)
     $stmt->close();
     return $result;
 }
+
+
+public function obtenerTodosLosEnvios()
+    {
+        // Se seleccionan los campos relevantes para la tabla
+        $sql = "SELECT item_id, item_price, mode, logistic_type, list_cost, currency_id, billable_weight 
+                FROM envios_meli 
+                ORDER BY id DESC"; // Ordenar por ID descendente para ver los más recientes primero
+
+        // Ejecutar la consulta sin parámetros (no es una sentencia preparada)
+        $result = $this->db->query($sql);
+
+        if (!$result) {
+            error_log("SQL Error (obtenerTodosLosEnvios): " . $this->db->error);
+            return [];
+        }
+
+        // Obtener todos los resultados como un array asociativo
+        $data = $result->fetch_all(MYSQLI_ASSOC);
+        
+        // Liberar el resultado
+        $result->free(); 
+        
+        return $data;
+    }
         
     
 
