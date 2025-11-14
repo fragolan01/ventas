@@ -12,6 +12,25 @@ require_once '../app/services/MeliItemImportador.php';
 
 class ItemsController {
 
+    // Prodiedad
+    protected $token;
+
+
+    public function __construct()
+    {
+        $this->itemModel = new ItemModel(); 
+        
+        // Usar __DIR__ para rutas seguras en servicios
+        $secrets = require __DIR__ . '/../../cronjobs/secrets.php'; 
+
+        // 2. Almacenar el token en la propiedad de clase
+        $this->token = $secrets['prod_mercado_libre']['prodtToken'];
+        
+        // Usar la propiedad de clase
+        $this->meliApiClient = new MeliApiClient($this->token); 
+    }
+
+
    public function index() {
         $this->importarItems();
     }
@@ -177,9 +196,9 @@ class ItemsController {
         $itemIds = array_map('trim', explode(',', $itemIdsString));
         $resultados = [];
         
-        // 2. Inicializar Servicio
-        $token = 'APP_USR-7626391564892909-111322-cea1c5448dd24a5fdc555be8688bbf0d-2424408169'; 
-        $updater = new ActualizaEnviosMeli($token);
+        // // 2. Inicializar Servicio
+        // $token = 'APP_USR-7626391564892909-111417-999c311c030938a7292e6f87cd953171-2424408169'; 
+        $updater = new ActualizaEnviosMeli($this->token);
         
         // 3. Procesar cada ID
         foreach ($itemIds as $itemId) {
