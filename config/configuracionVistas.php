@@ -30,8 +30,12 @@ $conf = [
             'view' => 'items/importar_items.php',
             'viewItems' => 'items/lista_items.php',
             'viewEnvios' => 'items/detalles_envios.php',
-          
-            'layout' => 'items/_layoutItemsMeli.php'
+            'viewResultadosEnvios' => 'Items/lista_costo_envios.php',
+
+            'layout' => 'items/_layoutItemsMeli.php',
+
+         
+
         ]
 
     ]
