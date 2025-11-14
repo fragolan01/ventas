@@ -5,7 +5,7 @@ require_once 'Model.php';
 class ItemModel extends Model
 {
 
-    /*
+    
     
     // El Importador ahora llama a este método directamente:
     public function insertarNuevoItem($data) 
@@ -175,13 +175,14 @@ class ItemModel extends Model
 
         return $productos;       
     }
-*/
+
 
 
     // Datos Consulta costo envio
- public function datosCostoEnvio($item_id)                
+public function datosCostoEnvio($item_id) 
 {
-    $sql = "SELECT item_id, price, listing_type_id, `shipping`, estado, logistic_type 
+    // CRÍTICO: Usamos 'shipping' en el SELECT.
+    $sql = "SELECT price, listing_type_id, condicion, shipping, logistic_type 
             FROM item_meli 
             WHERE item_id = ?";
 
@@ -204,19 +205,20 @@ class ItemModel extends Model
     $stmt->close();
 
     if ($data) {
+        // Mapeo de nombres para el Servicio (item_price y las 5 variables)
         return [
-            'item_id' => $data['item_id'],
+            'item_id' => $item_id,
             'item_price' => $data['price'],
             'listing_type_id' => $data['listing_type_id'],
-            'mode' => $data['shipping'],
-            'condition' => $data['estado'],
+            // Mapeamos 'shipping' (de la DB) a 'mode' (que espera la API y envios_meli)
+            'mode' => $data['shipping'], 
+            'condicion' => $data['condicion'], 
             'logistic_type' => $data['logistic_type']
         ];
     }
 
     return null;
 }
-
 
 
 }

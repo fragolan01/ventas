@@ -1,59 +1,47 @@
 <?php
+// app/models/EnviomeliModel.php
 
 require_once 'Model.php';
 
 class EnviomeliModel extends Model
 {
-    // Método de soporte: Verifica si existe un envío para el item_id
-    public function getEnvioMeliByItemId($itemId)
-    {
-        $stmt = $this->db->prepare("SELECT id FROM envios_meli WHERE item_id = ?");
-        $stmt->bind_param("s", $itemId);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        // Solo necesitamos saber si hay alguna fila (fetch_row)
-        $exists = $result->fetch_row();
-        $stmt->close();
-        return $exists; 
-    }
-
     /**
-     * Inserta un nuevo registro de envío.
-     * @param array $data Contiene todos los campos del registro (incluyendo los de resultado de la API).
+     * Inserta un nuevo registro de envío (Datos de Consulta).
+     * @param array $data Contiene los 6 campos de la tabla.
      */
     public function addEnviosMeli(array $data)
     {
-        // NOTA: Asegúrate que esta lista de campos coincida con tu tabla 'envios_meli'
         $sql = "INSERT INTO envios_meli (
                     item_id, item_price, listing_type_id, mode, condicion, logistic_type
                 ) VALUES (?, ?, ?, ?, ?, ?)";
         
         $stmt = $this->db->prepare($sql);
         
-        // El tipo de dato 's' (string) se usará para el item_id y los Varchar. 
-        // 'd' (double) se usará para el precio y el costo de envío (decimal).
+        // 6 Tipos, 6 Variables: s (item_id), d (item_price), ssss (varchars)
         $stmt->bind_param(
-            "sdssss", // Tipos: string, double, string, string, string, string, double, string, string
+            "sdssss", 
             $data['item_id'], 
             $data['item_price'], 
             $data['listing_type_id'], 
             $data['mode'], 
-            $data['condicion'], 
-            $data['logistic_type'],
-            // $data['costo_envio'], // Nuevo campo de resultado
-            // $data['moneda_envio'], // Nuevo campo de resultado
-            // $data['shipping_option_mode'] // Nuevo campo de resultado
+            $data['condicion'], // ASUMIMOS QUE LA CLAVE ES 'condicion' EN $data
+            $data['logistic_type']
         );
         
         $result = $stmt->execute();
+        
+        if (!$result) {
+            // DEPURACIÓN: Si falla, registra el error SQL exacto
+            error_log("SQL Error (INSERT): " . $stmt->error); 
+        }
+        
         $stmt->close();
         return $result;
     }
 
-
     /**
-     * Actualiza un registro de envío existente.
-     * @param array $data Contiene todos los campos del registro.
+     * Actualiza un registro de envío existente (Datos de Consulta).
+     * Nota: Corregido para solo actualizar los campos necesarios (5 SETs + 1 WHERE = 6 parámetros)
      */
     public function updateEnvio(array $data)
     {
@@ -63,87 +51,139 @@ class EnviomeliModel extends Model
                     mode = ?, 
                     condicion = ?, 
                     logistic_type = ?
-                    /* costo_envio = ?,      
-                    moneda_envio = ?,
-                    shipping_option_mode = ? Campo de resultado */
                 WHERE item_id = ?";
                 
         $stmt = $this->db->prepare($sql);
 
+        // 6 Tipos: d (item_price), ssss (4 varchars), s (item_id en WHERE)
         $stmt->bind_param(
-            "dssssd", // Tipos: double, string, string, string, string, double, string, string, string (item_id)
+            "dsssss", 
             $data['item_price'], 
             $data['listing_type_id'], 
             $data['mode'], 
             $data['condicion'], 
             $data['logistic_type'],
-            // $data['costo_envio'],
-            // $data['moneda_envio'],
-            // $data['shipping_option_mode'],
             $data['item_id'] // Usado en el WHERE
         );
         
         $result = $stmt->execute();
+        
+        if (!$result) {
+            // DEPURACIÓN: Si falla, registra el error SQL exacto
+            error_log("SQL Error (UPDATE): " . $stmt->error); 
+        }
+        
         $stmt->close();
         return $result;
     }
     
-    // ***************************************************************
-    // MÉTODO CENTRAL QUE USARÁ EL SERVICIO ActualizaEnviosMeli.php
-    // ***************************************************************
 
-    /**
-     * Realiza una operación UPSERT (UPDATE o INSERT) en la tabla de envíos.
-     * @param array $data Los datos completos del envío a guardar (deben incluir item_id).
-     * @return bool True si la operación fue exitosa, false en caso contrario.
-     */
+/*
+    public function insertOrUpdateShippingData(array $data)
+    {
+        $sql = "INSERT INTO envios_meli (
+                    item_id, item_price, listing_type_id, mode, condicion, logistic_type
+                ) VALUES (?, ?, ?, ?, ?, ?)
+                ON DUPLICATE KEY UPDATE
+                    item_price = VALUES(item_price),
+                    listing_type_id = VALUES(listing_type_id),
+                    mode = VALUES(mode),
+                    condicion = VALUES(condicion),
+                    logistic_type = VALUES(logistic_type)";
+
+        $stmt = $this->db->prepare($sql);
+
+        $stmt->bind_param(
+            "sdssss",
+            $data['item_id'],
+            $data['item_price'],
+            $data['listing_type_id'],
+            $data['mode'],
+            $data['condicion'],
+            $data['logistic_type']
+        );
+
+        $result = $stmt->execute();
+
+        if (!$result) {
+            error_log("SQL Error (UPSERT): " . $stmt->error);
+        }
+
+        $stmt->close();
+        return $result;
+    }
+    */
+
+
+    /*
+     
     public function insertOrUpdateShippingData(array $data)
     {
         // 1. Intentar actualizar primero
         $updated = $this->updateEnvio($data);
         
-        // 2. Si la actualización fue exitosa, o si no se afectó ninguna fila 
-        // pero la operación fue técnicamente exitosa, retornamos true.
         if ($updated && $this->db->affected_rows > 0) {
             return true; // Se actualizó
         } 
         
-        // 3. Si la actualización fue exitosa pero no se afectó ninguna fila (affected_rows == 0),
-        // significa que el item_id no existía. Procedemos a insertar.
         if ($updated && $this->db->affected_rows === 0) {
              return $this->addEnviosMeli($data); // Se inserta
         }
         
-        // 4. Si updateEnvio falló por alguna otra razón (no es común en este flujo), retornamos false.
         if (!$updated) {
             error_log("EnvioModel: Falló la operación de UPDATE/INSERT para item_id: " . $data['item_id']);
         }
 
         return false;
     }
-    
-    /* --- Métodos de listado y consulta por ID (se mantienen como referencia) ---
+        
     */
-    public function getenvios_meli()
-    {
-        $sql = "SELECT * FROM envios_meli";
-        $result = $this->db->query($sql);
-        $envios_meli = [];
-        if ($result->num_rows > 0) {
-            while($row = $result->fetch_assoc()) {
-                $envios_meli[] = $row;
-            }
-        }
-        return $envios_meli;
+
+    // app/models/EnviomeliModel.php
+
+// Esta función reemplaza a addEnviosMeli, updateEnvio, e insertOrUpdateShippingData
+public function insertOrUpdateShippingData(array $data)
+{
+    $sql = "INSERT INTO envios_meli (
+                item_id, item_price, listing_type_id, mode, condicion, logistic_type,
+                list_cost, currency_id, billable_weight 
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+            ON DUPLICATE KEY UPDATE
+                item_price = VALUES(item_price),
+                listing_type_id = VALUES(listing_type_id),
+                mode = VALUES(mode),
+                condicion = VALUES(condicion),
+                logistic_type = VALUES(logistic_type),
+                list_cost = VALUES(list_cost),           -- AÑADIDO
+                currency_id = VALUES(currency_id),       -- AÑADIDO
+                billable_weight = VALUES(billable_weight)"; // AÑADIDO
+
+    $stmt = $this->db->prepare($sql);
+
+    // 9 Tipos: s d s s s s d s d (de acuerdo a tu estructura de tabla)
+    $stmt->bind_param(
+        "sdssssdsd",
+        $data['item_id'],
+        $data['item_price'],
+        $data['listing_type_id'],
+        $data['mode'],
+        $data['condicion'],
+        $data['logistic_type'],
+        $data['list_cost'],        // Nuevo dato de la API
+        $data['currency_id'],      // Nuevo dato de la API
+        $data['billable_weight']   // Nuevo dato de la API
+    );
+
+    $result = $stmt->execute();
+
+    if (!$result) {
+        error_log("SQL Error (UPSERT ON DUPLICATE): " . $stmt->error);
     }
 
-    public function getEnvioMeliById($id)
-    {
-        $stmt = $this->db->prepare("SELECT * FROM envios_meli WHERE id = ?");
-        $stmt->bind_param("i", $id);
-        $stmt->execute();
-        $result = $stmt->get_result();
-        return $result->fetch_assoc();
-    }
-    // NOTA: Se ha eliminado la versión original de addEnviosMeli y updateEnvio para usar la versión array-based.
+    $stmt->close();
+    return $result;
+}
+        
+    
+
 }

@@ -158,6 +158,51 @@ class ItemsController {
 
 
 
+    // 2. Nuevo Método para procesar la consulta del costo de envío
+    public function procesarCostoEnvio()
+    {
+        global $conf; 
+        global $VIEW_PATH; 
+
+        // Incluir el servicio (ruta revisada)
+        require_once '../app/services/ActualizaEnviosMeli.php';
+
+        // 1. Obtener IDs del formulario
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST' || empty($_POST['item_ids'])) {
+            header('Location: /ventas/Items/detalleDeEnvios');
+            exit(); // CRÍTICO: Siempre salir después de header/redirección
+        }
+        
+        $itemIdsString = $_POST['item_ids'];
+        $itemIds = array_map('trim', explode(',', $itemIdsString));
+        $resultados = [];
+        
+        // 2. Inicializar Servicio
+        $token = 'APP_USR-7626391564892909-111315-ca14e8e5566badf720803da87cb38e73-2424408169'; 
+        $updater = new ActualizaEnviosMeli($token);
+        
+        // 3. Procesar cada ID
+        foreach ($itemIds as $itemId) {
+            if (!empty($itemId)) {
+                $resultados[$itemId] = $updater->updateShippingCost($itemId);
+            }
+        }
+
+        // 4. CARGAR VISTA (Patrón adoptado de detalleDeEnvios y importarItems)
+        
+        // Inicializar otras variables necesarias para el layout/vistas
+        $modulo = 'items';
+        
+        // Necesitas una entrada en $conf['modules']['items']['viewEnvios']
+        $viewContent = VIEW_PATH . $conf['modules']['items']['viewEnvios'];
+        $layout = VIEW_PATH . $conf['modules']['items']['layout'];
+
+        // 5. Cargar el layout
+        require_once $layout;
+    }
+
+// ...
+
 
     
 
