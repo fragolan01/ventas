@@ -14,6 +14,9 @@ class ItemsController {
 
     // Prodiedad
     protected $token;
+    protected $itemModel;       
+    protected $meliApiClient;   
+
 
 
     public function __construct()
@@ -242,17 +245,30 @@ class ItemsController {
         // die("--- Script detenido para depuración del Array ---");
         
         // 2. PREPARAR VARIABLES PARA LA VISTA
-        $data = [
-            'lista_envios' => $lista_envios, // Esta variable se usará en la vista
-            // Otras variables que necesites pasar
-        ];
+        // $data = [
+        //     'lista_envios' => $lista_envios, // Esta variable se usará en la vista
+        //     // Otras variables que necesites pasar
+        // ];
 
         // 3. CARGAR VISTAS Y LAYOUT
         
+        /*
         $modulo = 'items';
         // Utiliza la configuración de la vista para el contenido
         $viewContent = VIEW_PATH . $conf['modules']['items']['viewResultadosEnvios'];
         $layout = VIEW_PATH . $conf['modules']['items']['layout'];
+
+        */
+
+        $modulo = 'items';
+
+
+        $ruta_vista = $conf['modules']['items']['viewResultadosEnvios'];
+        $ruta_layout = $conf['modules']['items']['layout'];
+
+        $viewContent = rtrim(VIEW_PATH, '/') . '/' . trim($ruta_vista, '/');
+        $layout = rtrim(VIEW_PATH, '/') . '/' . trim($ruta_layout, '/');
+
         
         // 4. Cargar el layout (usando el mismo patrón de require_once)
         require_once $layout; 
