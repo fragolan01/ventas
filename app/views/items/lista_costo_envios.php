@@ -9,15 +9,14 @@ $lista_envios = $lista_envios ?? [];
 ?>
 
 <div class="container mt-5">
-    <h1>Lista Histórica de Costos de Envío</h1>
-    <p>Estos son los datos completos de configuración y costos de envío obtenidos de Mercado Libre, guardados en la tabla `envios_meli`.</p>
+    <h1>Costos Envío por Items</h1>
 
     <?php if (empty($lista_envios)): ?>
         <div class="alert alert-info">
             <i class="bi bi-info-circle-fill"></i> No hay registros de costos de envío para mostrar.
         </div>
     <?php else: ?>
-        <h3>Registros Encontrados: <?php echo count($lista_envios); ?></h3>
+        <h3>Total Items: <?php echo count($lista_envios); ?></h3>
         
         <div class="table-responsive">
             <table class="table table-striped table-bordered table-hover">

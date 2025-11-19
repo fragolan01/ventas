@@ -1,0 +1,66 @@
+✅ 1. Tabla principal (no hace falta modificarla)
+Tu tabla envios_meli sigue igual.
+No agregues campos de “anteriores” — se guarda todo en la tabla de historial.
+
+✅ 2. Crear tabla de historial completa
+CREATE TABLE envios_meli_historial (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    item_id VARCHAR(50) NOT NULL,
+
+    old_list_cost DECIMAL(10,2),
+    new_list_cost DECIMAL(10,2),
+
+    old_currency_id VARCHAR(5),
+    new_currency_id VARCHAR(5),
+
+    old_billable_weight DECIMAL(10,2),
+    new_billable_weight DECIMAL(10,2),
+
+    fecha_cambio DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+
+🧠 ¿Qué guarda esta tabla?
+Cada vez que tu cron job detecte un cambio en cualquiera de estos campos:
+CampoCambios registradoslist_costAntes / Despuéscurrency_idAntes / Despuésbillable_weightAntes / Después
+Almacena todo en un solo registro con fecha de modificación.
+
+🔄 3. Lógica del cron job
+1. Consultar valores actuales
+SELECT list_cost, currency_id, billable_weight
+FROM envios_meli
+WHERE item_id = 'XYZ';
+
+2. Comparar con los nuevos valores obtenidos del API
+3. Si cualquiera cambió → guardar en historial:
+INSERT INTO envios_meli_historial (
+    item_id,
+    old_list_cost, new_list_cost,
+    old_currency_id, new_currency_id,
+    old_billable_weight, new_billable_weight
+) VALUES (
+    'XYZ',
+    100.00, 110.00,
+    'MXN', 'MXN',
+    1.50, 2.00
+);
+
+4. Actualizar tabla principal
+UPDATE envios_meli
+SET
+    list_cost = 110.00,
+    currency_id = 'MXN',
+    billable_weight = 2.00
+WHERE item_id = 'XYZ';
+
+
+⭐ OPCIONAL pero altamente recomendado
+Puedes agregar un trigger que automáticamente guarde el historial cuando se actualicen estos campos manualmente en SQL.
+Si lo quieres, te preparo el trigger listo para copiar/pegar.
+
+📌 Conclusión
+✔ Sí debes usar una tabla historial, no agregar columnas en la tabla principal
+✔ Guarda los valores “antes y después” de cada campo
+✔ Permite auditar cambios de precio, moneda y peso sin modificar la estructura original
+
+¿Quieres que te genere el trigger automático o el script completo del cron job?

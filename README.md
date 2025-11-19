@@ -953,6 +953,23 @@ CREATE TABLE `item_meli_sale_terms` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 
+<!-- Historico -->
+
+CREATE TABLE envios_meli_historial (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    item_id VARCHAR(50) NOT NULL,
+
+    old_list_cost DECIMAL(10,2),
+    new_list_cost DECIMAL(10,2),
+    
+    old_billable_weight DECIMAL(10,2),
+    new_billable_weight DECIMAL(10,2),
+
+    fecha_cambio DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    
+);
+
+
 
 ```
 

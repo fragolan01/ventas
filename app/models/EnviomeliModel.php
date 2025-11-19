@@ -141,73 +141,102 @@ class EnviomeliModel extends Model
 
     // app/models/EnviomeliModel.php
 
-// Esta función reemplaza a addEnviosMeli, updateEnvio, e insertOrUpdateShippingData
-public function insertOrUpdateShippingData(array $data)
-{
-    $sql = "INSERT INTO envios_meli (
-                item_id, item_price, listing_type_id, mode, condicion, logistic_type,
-                list_cost, currency_id, billable_weight 
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-            ON DUPLICATE KEY UPDATE
-                item_price = VALUES(item_price),
-                listing_type_id = VALUES(listing_type_id),
-                mode = VALUES(mode),
-                condicion = VALUES(condicion),
-                logistic_type = VALUES(logistic_type),
-                list_cost = VALUES(list_cost),           -- AÑADIDO
-                currency_id = VALUES(currency_id),       -- AÑADIDO
-                billable_weight = VALUES(billable_weight)"; // AÑADIDO
-
-    $stmt = $this->db->prepare($sql);
-
-    // 9 Tipos: s d s s s s d s d (de acuerdo a tu estructura de tabla)
-    $stmt->bind_param(
-        "sdssssdsd",
-        $data['item_id'],
-        $data['item_price'],
-        $data['listing_type_id'],
-        $data['mode'],
-        $data['condicion'],
-        $data['logistic_type'],
-        $data['list_cost'],        // Nuevo dato de la API
-        $data['currency_id'],      // Nuevo dato de la API
-        $data['billable_weight']   // Nuevo dato de la API
-    );
-
-    $result = $stmt->execute();
-
-    if (!$result) {
-        error_log("SQL Error (UPSERT ON DUPLICATE): " . $stmt->error);
-    }
-
-    $stmt->close();
-    return $result;
-}
-
-
-public function obtenerTodosLosEnvios()
+    // Esta función reemplaza a addEnviosMeli, updateEnvio, e insertOrUpdateShippingData
+    public function insertOrUpdateShippingData(array $data)
     {
-        // Se seleccionan los campos relevantes para la tabla
-        $sql = "SELECT item_id, item_price, mode, logistic_type, list_cost, currency_id, billable_weight 
-                FROM envios_meli 
-                ORDER BY id DESC"; // Ordenar por ID descendente para ver los más recientes primero
+        $sql = "INSERT INTO envios_meli (
+                    item_id, item_price, listing_type_id, mode, condicion, logistic_type,
+                    list_cost, currency_id, billable_weight 
+                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                ON DUPLICATE KEY UPDATE
+                    item_price = VALUES(item_price),
+                    listing_type_id = VALUES(listing_type_id),
+                    mode = VALUES(mode),
+                    condicion = VALUES(condicion),
+                    logistic_type = VALUES(logistic_type),
+                    list_cost = VALUES(list_cost),           -- AÑADIDO
+                    currency_id = VALUES(currency_id),       -- AÑADIDO
+                    billable_weight = VALUES(billable_weight)"; // AÑADIDO
 
-        // Ejecutar la consulta sin parámetros (no es una sentencia preparada)
-        $result = $this->db->query($sql);
+        $stmt = $this->db->prepare($sql);
+
+        // 9 Tipos: s d s s s s d s d (de acuerdo a tu estructura de tabla)
+        $stmt->bind_param(
+            "sdssssdsd",
+            $data['item_id'],
+            $data['item_price'],
+            $data['listing_type_id'],
+            $data['mode'],
+            $data['condicion'],
+            $data['logistic_type'],
+            $data['list_cost'],        // Nuevo dato de la API
+            $data['currency_id'],      // Nuevo dato de la API
+            $data['billable_weight']   // Nuevo dato de la API
+        );
+
+        $result = $stmt->execute();
 
         if (!$result) {
-            error_log("SQL Error (obtenerTodosLosEnvios): " . $this->db->error);
-            return [];
+            error_log("SQL Error (UPSERT ON DUPLICATE): " . $stmt->error);
         }
 
-        // Obtener todos los resultados como un array asociativo
-        $data = $result->fetch_all(MYSQLI_ASSOC);
-        
-        // Liberar el resultado
-        $result->free(); 
-        
-        return $data;
+        $stmt->close();
+        return $result;
     }
+
+
+    public function obtenerTodosLosEnvios()
+        {
+            // Se seleccionan los campos relevantes para la tabla
+            $sql = "SELECT item_id, item_price, mode, logistic_type, list_cost, currency_id, billable_weight 
+                    FROM envios_meli 
+                    ORDER BY id DESC"; // Ordenar por ID descendente para ver los más recientes primero
+
+            // Ejecutar la consulta sin parámetros (no es una sentencia preparada)
+            $result = $this->db->query($sql);
+
+            if (!$result) {
+                error_log("SQL Error (obtenerTodosLosEnvios): " . $this->db->error);
+                return [];
+            }
+
+            // Obtener todos los resultados como un array asociativo
+            $data = $result->fetch_all(MYSQLI_ASSOC);
+            
+            // Liberar el resultado
+            $result->free(); 
+            
+            return $data;
+        }
+
+
+    // Cron job
+    public function obtenerCostosEnvioPorItemId($itemId)
+    {
+        $sql = "SELECT list_cost, billable_weight 
+                FROM envios_meli 
+                WHERE item_id = ? 
+                LIMIT 1";
+                
+        $stmt = $this->db->prepare($sql);
+        
+        // por si falla
+        if ($stmt === false) {
+            error_log("SQL Prepare Error: " . $this->db->error);
+            return false;
+        }
+        
+        $stmt->bind_param("s", $itemId);
+        $stmt->execute();
+        
+        $result = $stmt->get_result();
+        $data = $result->fetch_assoc();
+        
+        $stmt->close();
+        
+        return $data; 
+    }
+
         
     
 

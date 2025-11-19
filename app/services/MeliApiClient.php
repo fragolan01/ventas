@@ -34,7 +34,7 @@ class MeliApiClient
 
         //typo: $this->url_bsse → $this->url_base
         
-        //    Si funciona
+        // Si funciona
         $response = @file_get_contents($this->url_base . $endpoint, false, stream_context_create($contextOptions));
        
         // nO FUnciona
@@ -104,6 +104,21 @@ class MeliApiClient
     {
         return $this->request('GET', "users/{$userId}");
     }
+
+
+    /**
+     * Pausa Publicacion
+     * @param string $itemId
+     * @return array 
+     */
+    public function pausaItem($itemId)
+    {
+        $data = [
+                "status" => "paused"        
+        ];
+        return $this->request('PUT', "items/{$itemId}", $data);
+    }
+
 
 
 }
