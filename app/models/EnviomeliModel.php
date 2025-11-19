@@ -24,7 +24,7 @@ class EnviomeliModel extends Model
             $data['item_price'], 
             $data['listing_type_id'], 
             $data['mode'], 
-            $data['condicion'], // ASUMIMOS QUE LA CLAVE ES 'condicion' EN $data
+            $data['condicion'],
             $data['logistic_type']
         );
         
@@ -237,7 +237,38 @@ class EnviomeliModel extends Model
         return $data; 
     }
 
+
+
+
+    public function obtenerItemsParaCronjob()
+    {
         
+        // Selecciona todos los campos
+        $sql = "SELECT 
+                item_id, price, listing_type_id, condicion, shipping, logistic_type    
+                FROM item_meli
+                WHERE shipping = 'me2'
+                "; 
+        
+        // Nota: Asumo que tu tabla item_meli tiene los campos 'price' y 'shipping', 
+        // y los renombras a 'item_price' y 'mode' para que coincidan con la estructura 
+        // esperada por el servicio.
+        
+        $result = $this->db->query($sql);
+
+        if (!$result) {
+            error_log("SQL Error (obtenerItemsParaCronjob): " . $this->db->error);
+            return [];
+        }
+
+        $data = $result->fetch_all(MYSQLI_ASSOC);
+        $result->free(); 
+        
+        // Devuelve un array de arrays, donde cada sub-array contiene todos los datos de un ítem.
+        return $data;
+    }
+
+            
     
 
 }
