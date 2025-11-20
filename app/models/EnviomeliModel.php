@@ -154,9 +154,9 @@ class EnviomeliModel extends Model
                     mode = VALUES(mode),
                     condicion = VALUES(condicion),
                     logistic_type = VALUES(logistic_type),
-                    list_cost = VALUES(list_cost),           -- AÑADIDO
-                    currency_id = VALUES(currency_id),       -- AÑADIDO
-                    billable_weight = VALUES(billable_weight)"; // AÑADIDO
+                    list_cost = VALUES(list_cost),           
+                    currency_id = VALUES(currency_id),       -- 
+                    billable_weight = VALUES(billable_weight)"; // 
 
         $stmt = $this->db->prepare($sql);
 
@@ -169,9 +169,9 @@ class EnviomeliModel extends Model
             $data['mode'],
             $data['condicion'],
             $data['logistic_type'],
-            $data['list_cost'],        // Nuevo dato de la API
-            $data['currency_id'],      // Nuevo dato de la API
-            $data['billable_weight']   // Nuevo dato de la API
+            $data['list_cost'],        
+            $data['currency_id'],      
+            $data['billable_weight']   
         );
 
         $result = $stmt->execute();
@@ -185,29 +185,111 @@ class EnviomeliModel extends Model
     }
 
 
+    /*
+
     public function obtenerTodosLosEnvios()
-        {
-            // Se seleccionan los campos relevantes para la tabla
-            $sql = "SELECT item_id, item_price, mode, logistic_type, list_cost, currency_id, billable_weight 
-                    FROM envios_meli 
-                    ORDER BY id DESC"; // Ordenar por ID descendente para ver los más recientes primero
+    {
+        // Se seleccionan los campos relevantes para la tabla
+        $sql = "SELECT item_id, item_price, mode, logistic_type, list_cost, currency_id, billable_weight 
+                FROM envios_meli 
+                ORDER BY id DESC"; // Ordenar por ID descendente para ver los más recientes primero
 
-            // Ejecutar la consulta sin parámetros (no es una sentencia preparada)
-            $result = $this->db->query($sql);
+        // Ejecutar la consulta sin parámetros (no es una sentencia preparada)
+        $result = $this->db->query($sql);
 
-            if (!$result) {
-                error_log("SQL Error (obtenerTodosLosEnvios): " . $this->db->error);
-                return [];
-            }
-
-            // Obtener todos los resultados como un array asociativo
-            $data = $result->fetch_all(MYSQLI_ASSOC);
-            
-            // Liberar el resultado
-            $result->free(); 
-            
-            return $data;
+        if (!$result) {
+            error_log("SQL Error (obtenerTodosLosEnvios): " . $this->db->error);
+            return [];
         }
+
+        // Obtener todos los resultados como un array asociativo
+        $data = $result->fetch_all(MYSQLI_ASSOC);
+        
+        // Liberar el resultado
+        $result->free(); 
+        
+        return $data;
+    }
+
+    */
+
+
+    public function obtenerTodosLosEnvios()
+    {
+        // La consulta obtiene todos los campos de envios_meli (Costo Actual)
+        // y usa una subconsulta para obtener el Costo Anterior del historial.
+        $sql = "SELECT 
+                em.item_id, 
+                em.item_price, 
+                em.mode, 
+                em.logistic_type, 
+                em.list_cost,             
+                em.currency_id, 
+                em.billable_weight, 
+                (
+                    SELECT old_list_cost 
+                    FROM envios_meli_historial 
+                    WHERE item_id COLLATE utf8mb4_general_ci = em.item_id COLLATE utf8mb4_general_ci
+                    ORDER BY fecha_cambio DESC 
+                    LIMIT 1
+                ) AS costo_anterior_historial
+            FROM envios_meli em
+            ORDER BY em.id DESC
+            ";
+
+        $result = $this->db->query($sql);
+
+        if (!$result) {
+            error_log("SQL Error (obtenerTodosLosEnvios): " . $this->db->error);
+            return [];
+        }
+
+        $data = $result->fetch_all(MYSQLI_ASSOC);
+        $result->free(); 
+        
+        // ==========================================================
+        // LÓGICA PHP: Comparación para la columna 'Validaciones'
+        // ==========================================================
+        
+        $datos_procesados = [];
+        foreach ($data as $row) {
+            // 1. Obtener Costos (asegurando que sean números flotantes)
+            $costoActual = (float)$row['list_cost'];
+            
+            // Si no hay historial, se asume que el costo anterior es 0 o el mismo
+            $costoAnterior = (float)($row['costo_anterior_historial'] ?? $costoActual);
+            
+            $estadoCambio = "Sin Datos Históricos"; // Default
+            
+            // Compara solo si hay historial (o si se establece un valor por defecto)
+            if (isset($row['costo_anterior_historial'])) {
+                
+                // Usamos la misma tolerancia que en el cronjob
+                $diferencia = abs($costoActual - $costoAnterior);
+                
+                if ($diferencia < 0.01) {
+                    $estadoCambio = "Sin cambios";
+                } elseif ($costoActual > $costoAnterior) {
+                    $estadoCambio = "Incremento";
+                } else { // costoActual < costoAnterior
+                    $estadoCambio = "Decremento";
+                }
+            }
+            
+            // 2. Agregar los campos nuevos al array
+            $row['costo_anterior'] = $costoAnterior; // Columna 1
+            $row['validaciones'] = $estadoCambio;   // Columna 2
+            
+            $datos_procesados[] = $row;
+        }
+        
+        return $datos_procesados;
+    }
+
+
+
+
+
 
 
     // Cron job
@@ -249,10 +331,6 @@ class EnviomeliModel extends Model
                 FROM item_meli
                 WHERE shipping = 'me2'
                 "; 
-        
-        // Nota: Asumo que tu tabla item_meli tiene los campos 'price' y 'shipping', 
-        // y los renombras a 'item_price' y 'mode' para que coincidan con la estructura 
-        // esperada por el servicio.
         
         $result = $this->db->query($sql);
 

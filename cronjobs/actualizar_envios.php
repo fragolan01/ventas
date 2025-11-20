@@ -1,6 +1,4 @@
 <?php
-// cronjobs/actualizar_envios.php
-// Script de ejecución por línea de comandos (CLI)
 
 // Ajuste del límite de tiempo y memoria (para procesos largos)
 set_time_limit(0); 
@@ -8,11 +6,10 @@ ini_set('memory_limit', '512M');
 
 // --- 1. CONFIGURACIÓN E INCLUSIÓN DE ARCHIVOS ---
 
-// Define el directorio base (asumiendo que este script está dentro de 'cronjobs')
+// Define el directorio base
 $baseDir = __DIR__ . '/..'; 
 
 // Cargar secretos (donde debe estar tu $token)
-// NOTA: Asegúrate de que 'secrets.php' exista y devuelva un array con el token.
 $secrets = require __DIR__ . '/secrets.php'; 
 
 // Cargar Clases
@@ -25,21 +22,17 @@ require_once $baseDir . '/app/services/ActualizaEnviosMeli.php';
 // Obtener Token 
 $token = $secrets['prod_mercado_libre']['prodtToken'];
 
-// El ID de usuario se usa internamente en el servicio, pero lo definimos aquí si es necesario
-// $meliUserId = 2424408169; 
-
 // Instancia del modelo para obtener la lista de ítems a procesar
-// NOTA: Asume que EnviomeliModel::obtenerItemsParaCronjob() existe y devuelve un array de arrays.
 $envioModel = new EnviomeliModel(); 
 
 // Instancia del Servicio (el orquestador)
 $updater = new ActualizaEnviosMeli($token); 
 
-// --- 3. LÓGICA PRINCIPAL DEL PROCESO ---
+// --- 3. PRINCIPAL DEL PROCESO ---
 
 echo "--- Iniciando proceso de actualización de costos de envío (ME2) ---\n";
 
-// Obtener la lista completa de ítems a procesar (incluye item_id, price, etc.)
+//lista completa de ítems a procesar
 $itemsToProcess = $envioModel->obtenerItemsParaCronjob(); 
 
 if (empty($itemsToProcess)) {
@@ -52,12 +45,12 @@ $itemsChanged = 0;
 $itemsFailed = 0;
 
 foreach ($itemsToProcess as $itemData) {
-    // Extraemos el item_id de cada elemento de la lista.
+    // item_id de cada elemento de la lista.
     $itemId = $itemData['item_id'];
     
     echo "Procesando item: $itemId...\n";
     
-    // Llamar al método del servicio (SOLO se pasa el itemId)
+    // Llamar al método del servicio
     $resultado = $updater->updateShippingCost($itemId); 
     
     if ($resultado['success']) {

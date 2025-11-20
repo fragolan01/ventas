@@ -5,6 +5,7 @@ if (isset($data) && is_array($data)) {
 }
 
 // Verifica si la variable $lista_envios existe (si no existe, se inicializa como un array vacío)
+// Nota: Asume que el controlador pasa el array de datos bajo la clave 'lista_envios'
 $lista_envios = $lista_envios ?? [];
 ?>
 
@@ -26,21 +27,44 @@ $lista_envios = $lista_envios ?? [];
                         <th>Precio Venta</th>
                         <th>Mode</th>
                         <th>Logistic Type</th>
-                        <th>Costo Lista (ML)</th>
-                        <th>Peso Facturable</th>
+                        <th>Costo Envio Actual ML</th>
+                        <th>Costo Envio Anterior</th>
+                        <th>Validaciones</th> <th>Peso Facturable</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <?php foreach ($lista_envios as $envio): ?>
+                    <?php foreach ($lista_envios as $envio): 
+                        
+                        // Determinar clase CSS para la columna Validaciones
+                        $validacion = htmlspecialchars($envio['validaciones'] ?? 'Sin Datos Históricos');
+                        $claseValidacion = '';
+                        if (stripos($validacion, 'Incremento') !== false) {
+                            $claseValidacion = 'text-danger fw-bold'; // Rojo para incremento (costo subió)
+                        } elseif (stripos($validacion, 'Decremento') !== false) {
+                            $claseValidacion = 'text-success fw-bold'; // Verde para decremento (costo bajó)
+                        } elseif (stripos($validacion, 'Sin cambios') !== false) {
+                            $claseValidacion = 'text-secondary'; // Gris para sin cambios
+                        }
+                    ?>
                     <tr>
                         <td><?php echo htmlspecialchars($envio['item_id']); ?></td>
                         <td>$<?php echo number_format($envio['item_price'] ?? 0, 2); ?></td>
                         <td><?php echo htmlspecialchars($envio['mode']); ?></td>
                         <td><?php echo htmlspecialchars($envio['logistic_type']); ?></td>
+                        
                         <td>
-                            <strong><?php echo number_format($envio['list_cost'] ?? 0, 2); ?></strong> 
+                            <strong>$<?php echo number_format($envio['list_cost'] ?? 0, 2); ?></strong> 
                             <?php echo htmlspecialchars($envio['currency_id'] ?? 'N/A'); ?>
                         </td>
+                        
+                        <td>
+                            $<?php echo number_format($envio['costo_anterior'] ?? 0, 2); ?>
+                        </td>
+                        
+                        <td class="<?php echo $claseValidacion; ?>">
+                            <?php echo $validacion; ?>
+                        </td>
+                        
                         <td><?php echo number_format($envio['billable_weight'] ?? 0, 2); ?> kg</td>
                     </tr>
                     <?php endforeach; ?>
