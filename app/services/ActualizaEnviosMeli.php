@@ -12,7 +12,8 @@ class ActualizaEnviosMeli
     private $envioModel;
     private $meliClient;
     private $meliUserId = 2424408169; 
-    
+    private $historialModel;
+
     public function __construct($token)
     {
         $this->meliClient = new MeliApiClient($token);
@@ -66,7 +67,14 @@ class ActualizaEnviosMeli
             $costoLista = (float)($cobertura['list_cost'] ?? 0.00);
             $moneda = $cobertura['currency_id'] ?? $moneda;
             $pesoFacturable = (float)($cobertura['billable_weight'] ?? 0.00);
-        } 
+        }
+
+        // Pruebas Cron Job
+        // if ($itemId === 'MLM2341098235') { 
+        // $costoLista = 102.00; 
+        // error_log("Forzando costo nuevo a 200.00 para item $itemId.");
+        // }
+ 
         
         
         // CronJob
