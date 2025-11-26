@@ -6,6 +6,9 @@ require_once '../app/services/MeliApiClient.php';
 // Para Cron job
 require_once '../app/models/EnviomeliHistorialModel.php';
 
+// servicio de notificaciones *********************
+require_once '../app/services/NotificaServicios.php'; 
+
 class ActualizaEnviosMeli
 {
     private $itemModel;
@@ -13,6 +16,7 @@ class ActualizaEnviosMeli
     private $meliClient;
     private $meliUserId = 2424408169; 
     private $historialModel;
+    private $notificationService;
 
     public function __construct($token)
     {
@@ -21,6 +25,10 @@ class ActualizaEnviosMeli
         $this->envioModel = new EnviomeliModel(); 
         // CronJob
         $this->historialModel = new EnviomeliHistorialModel();
+
+        $this->notificationService = new NotificationService();
+        
+        
     }
 
     public function updateShippingCost($itemId)
@@ -92,6 +100,16 @@ class ActualizaEnviosMeli
                 $oldBillableWeight,
                 $pesoFacturable // Nuevo peso va aquí
             );
+
+
+            // 2. Envio de correos ***********************
+            $this->notificationService->sendCostChangeNotification(
+                $itemId, 
+                $oldListCost, 
+                $costoLista
+            );
+
+
             $haCambiado = true;
             error_log("Updater: CAMBIO DETECTADO para $itemId. Costo: $oldListCost -> $costoLista. Peso: $oldBillableWeight -> $pesoFacturable.");
         }
