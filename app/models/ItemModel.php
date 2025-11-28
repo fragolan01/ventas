@@ -181,7 +181,9 @@ class ItemModel extends Model
 // Datos Consulta costo envio
 public function datosCostoEnvio($item_id) 
 {
-    $sql = "SELECT price, listing_type_id, condicion, shipping, logistic_type 
+    $sql = "SELECT price, listing_type_id, condicion, shipping, logistic_type,
+            -- Campos muestra
+            	title
             FROM item_meli 
             WHERE item_id = ?";
 
@@ -212,7 +214,8 @@ public function datosCostoEnvio($item_id)
             // Mapeo 'shipping' (de la DB) a 'mode' (que espera la API y envios_meli)
             'mode' => $data['shipping'], 
             'condicion' => $data['condicion'], 
-            'logistic_type' => $data['logistic_type']
+            'logistic_type' => $data['logistic_type'],
+            'title'=> $data['title']
         ];
     }
 

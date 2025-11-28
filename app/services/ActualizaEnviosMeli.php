@@ -3,7 +3,7 @@ require_once '../app/models/ItemModel.php';
 require_once '../app/models/EnviomeliModel.php';
 require_once '../app/services/MeliApiClient.php'; 
 
-// Para Cron job
+// cronjob
 require_once '../app/models/EnviomeliHistorialModel.php';
 
 // servicio de notificaciones *********************
@@ -60,9 +60,7 @@ class ActualizaEnviosMeli
             return ['success' => false, 'message' => "Error de API: $apiMessage"];
         }
 
-        // =================================================================
         // 5. PARSEO Y EXTRACCIÓN DE LOS 3 CAMPOS NUEVOS (list_cost, currency_id, billable_weight)
-        // =================================================================
         $costoLista = 0.00;
         $moneda = 'MXN';
         $pesoFacturable = 0.00;
@@ -98,15 +96,22 @@ class ActualizaEnviosMeli
                 $oldListCost,
                 $costoLista,    // Nuevo costo va aquí
                 $oldBillableWeight,
-                $pesoFacturable // Nuevo peso va aquí
+                $pesoFacturable, // Nuevo peso va aquí
+
+                // Nuevos campos
+                // $itemTitle = $paramsDb['title']
             );
 
+            // Nuevos campos
+            $itemTitle = $paramsDb['title'];
 
             // 2. Envio de correos ***********************
             $this->notificationService->sendCostChangeNotification(
                 $itemId, 
                 $oldListCost, 
-                $costoLista
+                $costoLista,
+                $itemTitle
+                // $paramsDb['title']
             );
 
 

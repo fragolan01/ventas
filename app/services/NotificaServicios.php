@@ -2,42 +2,44 @@
 
 class NotificationService
 {
-    // --- CONFIGURACIÓN DE CORREO SMTP (Se usan para el encabezado 'From') ---
-    // NOTA: Estas variables ya no configuran el SMTP, solo el remitente.
+    // --- CONFIGURACIÓN DE CORREO SMTP
     private $vempresa = "Fragolan Linking People";
     private $vemail = "actualizaciones@fragolan.com";
-    private $recipient = "actualizaciones@fragolan.com"; // Asumimos que quieres enviarlo a la misma cuenta de 'actualizaciones'
+    private $recipient = "actualizaciones@fragolan.com"; 
 
     /**
-     * Envía una notificación por correo electrónico sobre el cambio de costo de envío.
-     * Utiliza la función mail() de PHP para aprovechar la configuración SMTP nativa del servidor.
-     *
-     * @param string $itemId ID del ítem que cambió.
-     * @param float $oldCost Costo de envío anterior.
-     * @param float $newCost Costo de envío actual (nuevo).
-     * @return bool True si el email fue enviado con éxito, False en caso contrario.
+     * 
+     * @param string $itemId 
+     * @param float $
+     * @param float 
+     * @return bool 
      */
     public function sendCostChangeNotification(
         string $itemId, 
         float $oldCost, 
-        float $newCost
+        float $newCost,
+        string $itemTitle //--- El titulo
     ): bool
     {
-        // --- 1. PREPARACIÓN DEL CONTENIDO DINÁMICO ---
+        // PREPARACIÓN DEL CONTENIDO
         $mailid = time() + 1;
         $tipoCambio = ($newCost > $oldCost) ? 'Incremento' : 'Decremento';
         
-        // --- ASUNTO ---
+        // ASUNTO 
         $asunto = "Email de Actualizaciones de " . $this->vempresa . " (Mail ID: " . $mailid . ")";
         
-        // --- CUERPO DEL MENSAJE (Tu formato base) ---
+        // Mensaje
         $mensaje = "El sistema realizó las siguientes Actualizaciones:<br><br>";
 
-        // --- Agregar la actualización específica ---
+        // actualización específica ---
         $mensaje .= "
             <strong>ALERTA DE CAMBIO DE COSTO DE ENVÍO</strong><br>
             El ítem **{$itemId}** ha experimentado un **{$tipoCambio}** en su costo de envío:<br><br>
             <table border='1' cellpadding='10' cellspacing='0'>
+                <tr>
+                    <td><strong>Publicacion:</strong></td>
+                    <td>" . htmlspecialchars($itemTitle) . "</td> </tr>
+                <tr>
                 <tr>
                     <td><strong>ID del Ítem:</strong></td>
                     <td>{$itemId}</td>
@@ -62,7 +64,8 @@ class NotificationService
         
         // --- 2. PREPARACIÓN DE HEADERS ---
         $from = $this->vemail;
-        $to = $this->recipient; // El destinatario final
+        // Destinatario
+        $to = $this->recipient; 
         
         $elhtml = $mensaje; // Contenido HTML
         
@@ -71,11 +74,11 @@ class NotificationService
         $headers .= "From: " . $from . "\r\n"; 
         $headers .= "Reply-To: " . $from . "\r\n";
 
-        // --- 3. ENVÍO REAL USANDO LA FUNCIÓN NATIVA mail() ---
+        //  REAL USANDO LA FUNCIÓN NATIVA
         $mailSuccess = mail($to, $asunto, $elhtml, $headers);
 
         if (!$mailSuccess) {
-            // Este log es importante para el cronjob si falla el envío
+            // errores log
             error_log("NotificationService ERROR: Fallo al enviar correo de cambio de costo para ítem {$itemId} usando mail().");
         } else {
             error_log("NotificationService INFO: Correo de cambio de costo para ítem {$itemId} enviado con éxito a {$to} usando mail().");
